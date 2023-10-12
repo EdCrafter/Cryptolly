@@ -1,0 +1,33 @@
+:root {
+  box-sizing: border-box;
+}
+body {
+  margin: 0%;
+  background: var(--base-darker-grey, #141518);
+  color: aliceblue; /**temporary */
+  background-image: url("img/BG\ Pattern.svg");
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+header {
+  margin: 24px auto 60px;
+  max-width: 327px;
+}
+
+.navbarr {
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  gap: 263px;
+  flex-shrink: 0;
+}
