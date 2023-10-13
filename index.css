@@ -31,3 +31,12 @@ header {
   gap: 263px;
   flex-shrink: 0;
 }
+header>.title{
+  color: #FFF;
+  text-align: center;
+  font-family: 'Lunasima', sans-serif;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 110%; /* 37.4px */
+}
