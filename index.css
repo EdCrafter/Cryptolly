@@ -31,12 +31,85 @@ header {
   gap: 263px;
   flex-shrink: 0;
 }
-header>.title{
-  color: #FFF;
+header > .title {
+  color: #fff;
   text-align: center;
-  font-family: 'Lunasima', sans-serif;
+  font-family: "Lunasima", sans-serif;
   font-size: 30px;
   font-style: normal;
   font-weight: 700;
-  line-height: 110%; /* 37.4px */
+  line-height: 110%;
+  margin-top: 40px;
+  margin-bottom: 24px;
+}
+header > .subtitle {
+  color: #e5e6ed;
+  text-align: center;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "Josefin Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 27px;
+  margin-bottom: 40px;
+}
+header > form {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+header .input-container {
+  display: flex;
+  width: 327px;
+  height: 54px;
+  padding: 16px 8px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  border-radius: 50px;
+  border: 1px solid #34384c;
+  background: rgba(47, 50, 65, 0.5);
+}
+
+.input-container > input[type="email"] {
+  color: #5d6588;
+  background: transparent;
+  font-feature-settings: "clig" off, "liga" off;
+  width: 178px;
+  border: none;
+  /* Mobile/ Body/ Regular/ Medium */
+  font-family: "Josefin Sans";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 171.429% */
+}
+.input-container > input[type="email"]::placeholder {
+  color: #5d6588;
+}
+input:focus-visible {
+  outline: none;
+}
+
+.input-container+ input[type="submit"] {
+  display: flex;
+  padding: 16px 32px;
+  justify-content: center;
+  border: none;
+  align-self: stretch;
+  border-radius: 100px;
+  background: linear-gradient(
+    266deg,
+    #246cf9 -0.27%,
+    #1e68f6 -0.26%,
+    #0047d0 98.59%
+  );
+  color: #fff;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "Lunasima";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 160%;
 }

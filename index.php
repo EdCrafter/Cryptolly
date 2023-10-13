@@ -1,5 +1,6 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +9,13 @@
     <link href="https://fonts.googleapis.com/css?family=Sofia:regular" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Inter:,regular,medium" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Sora:bold" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:regular,semibold,medium" rel="stylesheet" />
 </head>
+
 <body>
     <?php
-        include ("./components/main/hero.php");
+    include("./components/main/hero.php");
     ?>
 </body>
+
 </html>
