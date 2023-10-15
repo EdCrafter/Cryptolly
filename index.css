@@ -8,7 +8,7 @@ body {
   background-image: url("img/BG\ Pattern.svg");
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
 }
 
@@ -70,6 +70,7 @@ header .input-container {
   border-radius: 50px;
   border: 1px solid #34384c;
   background: rgba(47, 50, 65, 0.5);
+  cursor: text;
 }
 
 .input-container > input[type="email"] {
@@ -92,7 +93,8 @@ input:focus-visible {
   outline: none;
 }
 
-.input-container+ input[type="submit"] {
+.input-container + input[type="submit"] {
+  cursor: pointer;
   display: flex;
   padding: 16px 32px;
   justify-content: center;
@@ -112,4 +114,99 @@ input:focus-visible {
   font-style: normal;
   font-weight: 600;
   line-height: 160%;
+}
+
+.assets {
+  display: flex;
+  width: 327px;
+  padding: 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  border-radius: 10px;
+  background: rgba(47, 50, 65, 0.5);
+  margin-bottom: 24px;
+}
+
+.assets > div {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  align-self: stretch;
+}
+
+.assets > div > div:first-child {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  padding: 0.056px 0.021px 0.064px 0.098px;
+  justify-content: center;
+  align-items: center;
+}
+.assets > div > div + div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1 0 0;
+}
+.assets > div > div:last-child {
+  align-items: flex-end;
+}
+.assets > div > div + div > span {
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "Josefin Sans";
+  font-size: 14px;
+  font-style: normal;
+  line-height: 24px;
+}
+.assets > div > div + div > span:first-child {
+  color: #fff;
+  font-weight: 600; /* 171.429% */
+}
+.assets > div > div + div > span:first-child + span {
+  color: #b9bdea;
+  font-weight: 400;
+}
+
+.appreciation {
+  color: #11cabe !important;
+}
+
+.depreciation {
+  color: #fa2256 !important;
+}
+
+.view_more {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  justify-content: center;
+}
+
+.view_more > span {
+  color: #fff;
+  text-align: right;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Sofia Pro;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22.4px; /* 160% */
+}
+.view_more > div {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.view_more > div > div {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  padding: 4.751px 3.541px 5.208px 3.958px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
 }

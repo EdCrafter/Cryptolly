@@ -10,11 +10,14 @@
     <link href="https://fonts.googleapis.com/css?family=Inter:,regular,medium" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Sora:bold" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:regular,semibold,medium" rel="stylesheet" />
+    <script src="index.js"></script>
 </head>
 
 <body>
     <?php
     include("./components/main/hero.php");
+    include("./components/main/assets.php");
+    include("./components/footer.php");
     ?>
 </body>
 
