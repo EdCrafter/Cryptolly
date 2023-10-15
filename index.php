@@ -14,11 +14,13 @@
 </head>
 
 <body>
-    <?php
-    include("./components/main/hero.php");
-    include("./components/main/assets.php");
-    include("./components/footer.php");
-    ?>
+    <div class="main_container">
+        <?php
+        include("./components/main/hero.php");
+        include("./components/main/assets.php");
+        include("./components/footer.php");
+        ?>
+    </div>
 </body>
 
 </html>

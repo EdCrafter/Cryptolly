@@ -6,9 +6,6 @@ body {
   background: var(--base-darker-grey, #141518);
   color: aliceblue; /**temporary */
   background-image: url("img/BG\ Pattern.svg");
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
 }
 
@@ -16,6 +13,12 @@ body {
 *::before,
 *::after {
   box-sizing: inherit;
+}
+.main_container {
+  width: 375px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 header {
@@ -209,4 +212,65 @@ input:focus-visible {
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
+}
+
+footer > .logo {
+  margin-top: 64px;
+  margin-bottom: 24px;
+  flex-shrink: 0;
+}
+.logo > div {
+  display: inline-flex;
+  align-items: center;
+}
+.logo > div > span {
+  color: #fff;
+  font-family: Sora;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.logo > div > span + span {
+  color: #1a82ff;
+}
+.logo > div + div {
+  display: block;
+  color: #fff;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Graphik;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27px; /* 168.75% */
+}
+.socmed {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 44px;
+  margin-bottom: 40px;
+}
+.Quick_link > div {
+  color: #fff;
+  font-family: Sofia Pro;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 19.2px */
+}
+.Quick_link > div + div >div{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  flex: 1 0 0;
+}
+.Quick_link > div + div > div>div {
+  color: var(--base-grey-40, #a5adcf);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Graphik;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 171.429% */
 }
