@@ -55,6 +55,14 @@
             </div>
         </div>
     </div>
-    <div></div>
-    <div></div>
+    <div class="subscription">
+        <div>Submit for updates.</div>
+        <div>Subscribe to get update and notify our exchange and products</div>
+        <form action="GET" class="input-container">
+            <input type="email" name="email" placeholder="Enter your email address">
+            <input type="submit" value="Send" class="button-container"></input>
+        </form>
+    </div>
+    <hr>
+    <div>kk;l</div>
 </footer>

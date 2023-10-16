@@ -76,7 +76,7 @@ header .input-container {
   cursor: text;
 }
 
-.input-container > input[type="email"] {
+input[type="email"] {
   color: #5d6588;
   background: transparent;
   font-feature-settings: "clig" off, "liga" off;
@@ -89,14 +89,14 @@ header .input-container {
   font-weight: 400;
   line-height: 24px; /* 171.429% */
 }
-.input-container > input[type="email"]::placeholder {
+input[type="email"]::placeholder {
   color: #5d6588;
 }
 input:focus-visible {
   outline: none;
 }
 
-.input-container + input[type="submit"] {
+input[type="submit"] {
   cursor: pointer;
   display: flex;
   padding: 16px 32px;
@@ -258,19 +258,76 @@ footer > .logo {
   font-weight: 700;
   line-height: 120%; /* 19.2px */
 }
-.Quick_link > div + div >div{
+.Quick_link > div + div {
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: flex-start;
+}
+.Quick_link > div + div > div {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
   flex: 1 0 0;
 }
-.Quick_link > div + div > div>div {
-  color: var(--base-grey-40, #a5adcf);
+.Quick_link > div + div > div > div {
+  color: #a5adcf;
+  width: 148px;
   font-feature-settings: "clig" off, "liga" off;
   font-family: Graphik;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 24px; /* 171.429% */
+}
+.subscription {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+.subscription > div {
+  color: #fff;
+  text-align: left;
+  font-family: Sofia Pro;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 120%; /* 19.2px */
+}
+.subscription > div + div {
+  color: #a5adcf;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Graphik;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px; /* 171.429% */
+  width: 327px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+footer form {
+  cursor: text;
+  display: flex;
+  width: 327px;
+  padding: 8px 8px 8px 24px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 100px;
+  border: 1px solid #34384c;
+  background: rgba(47, 50, 65, 0.5);
+}
+footer form input[type="email"] {
+  flex: 1 0 0;
+  font-family: Graphik;
+  line-height: 24px; /* 171.429% */
+}
+footer form input[type="submit"] {
+  font-family: Sofia Pro;
+  font-size: 14px;
+  line-height: 22.4px; /* 160% */
+}
+
+hr{
+  border-color:#34384C ;
+  border-style: solid;
 }
