@@ -15,11 +15,13 @@
 
 <body>
     <div class="main_container">
-        <?php
-        include("./components/main/hero.php");
-        include("./components/main/assets.php");
-        include("./components/footer.php");
-        ?>
+        <div class="container">
+            <?php
+            include("./components/main/hero.php");
+            include("./components/main/assets.php");
+            include("./components/footer.php");
+            ?>
+        </div>
     </div>
 </body>
 

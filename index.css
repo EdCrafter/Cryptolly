@@ -3,9 +3,6 @@
 }
 body {
   margin: 0%;
-  background: var(--base-darker-grey, #141518);
-  color: aliceblue; /**temporary */
-  background-image: url("img/BG\ Pattern.svg");
   width: 100%;
 }
 
@@ -15,7 +12,15 @@ body {
   box-sizing: inherit;
 }
 .main_container {
+  background-image: url("img/BG\ Pattern.svg");
+  display: flex;
+  justify-content: center;
+  background: #141518;
   width: 375px;
+}
+
+.container{
+  width: 327px;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -214,7 +219,7 @@ input[type="submit"] {
   flex-shrink: 0;
 }
 
-footer > .logo {
+footer .logo {
   margin-top: 64px;
   margin-bottom: 24px;
   flex-shrink: 0;
@@ -327,7 +332,46 @@ footer form input[type="submit"] {
   line-height: 22.4px; /* 160% */
 }
 
-hr{
-  border-color:#34384C ;
+hr {
+  border-color: #34384c;
   border-style: solid;
+  width: 100%;
+}
+
+footer > div + div div {
+  color:  #5d6588;
+  text-align: right;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Graphik;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 171.429% */
+}
+.verticalLine {
+  width: 1px;
+  height: 24px;
+  background: #34384c;
+}
+
+.termOfService {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  width: 327px;
+  justify-content: center;
+}
+
+footer > div {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.termOfService+div{
+  text-align: center;
+}
+
+footer{
+  padding-bottom: 32px;
 }
