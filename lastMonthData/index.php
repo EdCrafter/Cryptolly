@@ -1,6 +1,6 @@
 <?php
-require 'vendor/autoload.php';
-use Sunra\PhpSimple\HtmlDomParser;
+// require 'vendor/autoload.php';
+// use Sunra\PhpSimple\HtmlDomParser;
 
 // Подключение к базе данных
 $mysqli = new mysqli("localhost", "root", "IPZ221Verdev", "cryptolly");
@@ -11,6 +11,8 @@ if ($mysqli->connect_error) {
 }
 
 // Символы криптовалют и их идентификаторы (ticker => name)
+$sql = "SELECT crypto_id from cryptocurrencies";
+$mysqli->query($sql);
 $cryptocurrencies = array(
     'BTC' => 'Bitcoin', 
     'ETH' => 'Ethereum',
