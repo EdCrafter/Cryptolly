@@ -1,5 +1,4 @@
 <?php
-
 $mysqli = new mysqli("localhost", "root", "IPZ221Verdev", "cryptolly");
 
 if ($mysqli->connect_error) {
@@ -23,7 +22,6 @@ foreach ($cryptocurrencies as $ticker) {
     $data = json_decode($response, true);
 
     // Получение текущей цены в USD
-    $data['USD']  = "<h><sircle>rar</sircle></h>";
     $current_price = htmlentities($data['USD']);
     if (is_numeric($current_price)){
         echo($current_price)." ";

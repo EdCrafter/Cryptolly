@@ -144,4 +144,15 @@ class DB {
         if (!$r) return false;
         return mysqli_fetch_assoc($r);
     }
+    public function update($url,$urlParams){
+        if (!$this->isConnect()) return false;
+        if($urlParams){
+            $url = $url.'?'.http_build_query($urlParams);
+            $response = file_get_contents($url);
+            $data = json_decode($response, true);
+            return $data;
+        }
+        return false;
+    }
+    
 }
