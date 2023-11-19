@@ -8,6 +8,7 @@ class QueryBuilder {
     protected $insert = [];
     protected $where = [];
     protected $order = [];
+    protected $group = [];
     protected $join = [];
     protected $offset = null;
     protected $limit = null;
@@ -75,6 +76,17 @@ class QueryBuilder {
         return $this;
     }
 
+    public function groupBy($fields) {
+        if (is_array($fields)) {
+            foreach ($fields as $v) {
+                array_push($this->group, $v);
+            }
+        } else {
+            array_push($this->group, $fields);
+        }
+        return $this;
+    }
+
     public function where($field, $condition, $value) {
         array_push($this->where,[
             'field' => $field,
@@ -118,6 +130,7 @@ class QueryBuilder {
             if ($this->where) {
                 $this->sql .= ' WHERE '. $this->buildWhere($this->where );
             }
+            if ($this->group) $this->sql .= ' GROUP BY ' . implode(',', $this->group);
             if ($this->order) $this->sql .= ' ORDER BY ' . implode(',', $this->order);
             if ($this->offset && $this->limit) $this->sql .= ' LIMIT '. $this->offset . ',' . $this->limit;
             else if ($this->limit) $this->sql .= ' LIMIT '. $this->limit;
