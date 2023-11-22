@@ -48,7 +48,7 @@ if ($mysqli->isConnect()) {
                 $errorFieldsValue = [$error_time,$crypto_id];
                 $tableFields = ['crypto_id', 'date','time'];
                 $tableFieldsValue = [$crypto_id, $date,$time];
-                $tableFieldName = 'price_usd';
+                $tableFieldName = 'price';
                 $mysqli->updateV1($current_price,"errorlog",$errorFields, $errorFieldsValue,'error_message',"prices",$tableFields,$tableFieldsValue,$tableFieldName);
                 
             }

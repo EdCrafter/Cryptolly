@@ -205,7 +205,6 @@ class DB {
         if (!$this->isConnect()) return false;
         if($urlParams){
             $url = $url.'?'.http_build_query($urlParams);
-            echo "$url<br>";
             $response = file_get_contents($url);
             $data = json_decode($response, true);
             return $data;

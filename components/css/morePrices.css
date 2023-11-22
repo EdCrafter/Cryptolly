@@ -1,0 +1,59 @@
+h1 {
+  font-family: Sofia Pro;
+  font-size: 57px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+}
+
+.form-sort{
+  width: 1018px;
+  display: flex;
+  align-items: flex-start;
+}
+.form-sort .sort-field>div{
+  min-width: 30%;
+}
+/* .sort-field .max-len{
+  width: 100%;
+} */
+.form-sort .sort-field>div *{
+  width: 100%;
+}
+.form-sort .sort-field{
+  display: flex;
+  flex-wrap: wrap;
+  gap:5px;
+  align-items: center;
+}
+.form-sort form{
+  width: 100%;
+}
+
+.form-sort input[type="submit"]{
+  margin-top: 20px;
+  height: auto;
+}
+
+.sort-field input , .sort-field select{
+  height: 25px;
+  color: #7ce4cf;
+  border: 1px solid #436e97;
+  border-radius: 5px;
+  font-size: large;
+  background-color: #090d1e;
+}
+
+.form-sort h3{
+  text-align: center;
+  font-size: xx-large;
+}
+.form-sort h4{
+  text-align: center;
+  font-size: large;
+  margin: 0;
+}
+
+.form-sort{
+  font-size: large;
+}

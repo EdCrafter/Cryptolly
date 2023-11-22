@@ -3,9 +3,14 @@ document.addEventListener('DOMContentLoaded', function () {
     // Функция будет выполнена после полной загрузки DOM
     focusInputOnContainerClick();
     updateContent();
+    var button = document.getElementById('toggle-menu');
+    button.addEventListener('click',showMenu);
 });
 
-
+function showMenu(){
+    var menu =  document.getElementById('main-menu');
+    menu.classList.toggle('is-open');
+}
 
 function focusInputOnContainerClick() {
     // Найти все элементы .input-container и добавить обработчик клика
@@ -34,11 +39,13 @@ function updateContent() {
         // Отображаем содержимое для узких экранов
         container.querySelector('.wide-content').style.display = 'none';
         container.querySelector('.narrow-content').style.display = 'block';
-    } else if(windowWidth >1000) {
+    } else if(windowWidth >1090) {
         // Отображаем содержимое для широких экранов
         container.querySelector('.wide-content').style.display = 'block';
         container.querySelector('.narrow-content').style.display = 'none';
     }
     else{
+        container.querySelector('.wide-content').style.display = 'none';
+        container.querySelector('.narrow-content').style.display = 'none';
     }
 }

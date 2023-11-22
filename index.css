@@ -12,7 +12,48 @@ body {
 *::after {
   box-sizing: inherit;
 }
-
+button {
+  cursor: pointer;
+}
+ul{
+  text-decoration: none;
+  list-style: none;
+}
+.button-container,.button-container--light {
+  padding: 12px 24px;
+}
+.menu-buttons{
+  display: flex;
+  gap:24px;
+  align-items: center;
+  justify-content: space-between;
+}
+.button-container {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  border: none;
+  border-radius: 100px;
+  background: linear-gradient(
+    266deg,
+    #246cf9 -0.27%,
+    #1e68f6 -0.26%,
+    #0047d0 98.59%
+  );
+  color: #fff;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "Lunasima";
+}
+.button-container--light {
+  color: var(--base-grey-0, #fff);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Sofia Pro;
+  font-style: normal;
+  font-weight: 600;
+  background-color: transparent;
+  border-radius: 100px;
+  border: 1px solid var(--base-grey-0, #fff);
+}
 @media (max-width: 35em) {
   .main_container {
     background-image: url("img/BGMobilePattern.svg");
@@ -36,9 +77,8 @@ body {
 
   .navbarr {
     display: flex;
-    height: 40px;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     gap: 263px;
     flex-shrink: 0;
   }
@@ -381,8 +421,53 @@ body {
   footer {
     padding-bottom: 32px;
   }
+
+  .other-information > div {
+    color: var(--base-grey-60, #5d6588);
+  }
+  .menu-toggle {
+    position: absolute;
+    right: -1em;
+    top:0.6em;
+    border: 0;
+    background-color: transparent;
+    font-size: 3em;
+    width: 1em;
+    height: 1em;
+    line-height: 0.4;
+    text-indent: 5em;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .menu-toggle::after {
+    color: white;
+    position: absolute;
+    top: 0.2em;
+    left: 0.2em;
+    display: block;
+    content: "\2261";
+    text-indent: 0;
+  }
+  .menu-dropdown {
+    display: none;
+    margin-top: 50px;
+    width: 200px;
+  }
+
+  .menu.is-open .menu-dropdown {
+    display: flex;
+    flex-direction: column;
+    margin-left: -210px;
+    gap: 5px;
+  }
+  .menu.is-open .menu-dropdown * {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
 }
-@media (min-width: 50em) {
+@media (min-width: 68em) {
   .main_container {
     background-image: url("img/BGLaptopPattern.svg");
     display: flex;
@@ -400,7 +485,7 @@ body {
     flex-direction: column;
     align-items: center;
   }
-  .container>*{
+  .container > * {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -413,10 +498,11 @@ body {
   .navbarr {
     display: flex;
     height: 40px;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 263px;
+    width: 1018px;
     flex-shrink: 0;
+    position: relative;
   }
 
   header > .title {
@@ -501,61 +587,65 @@ body {
     line-height: 160%;
   }
 
-  .assets {
-    display: flex;
-    width: 327px;
-    padding: 16px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    border-radius: 10px;
+  table {
+    width: 1038px;
+    border-radius: 12px;
     background: rgba(47, 50, 65, 0.5);
-    margin-bottom: 24px;
+    backdrop-filter: blur(12px);
+    padding: 12px 24px;
   }
 
-  .assets > div {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    align-self: stretch;
+  th,
+  td {
+    text-align: left;
   }
-
-  .assets > div > div:first-child {
-    display: flex;
-    width: 24px;
-    height: 24px;
-    padding: 0.056px 0.021px 0.064px 0.098px;
-    justify-content: center;
-    align-items: center;
+  tr {
+    height: 64px;
   }
-  .assets > div > div + div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    flex: 1 0 0;
-  }
-  .assets > div > div:last-child {
-    align-items: flex-end;
-  }
-  .assets > div > div + div > span {
+  .assets th {
+    color: #6f74b0;
     font-feature-settings: "clig" off, "liga" off;
-    font-family: "Josefin Sans";
-    font-size: 14px;
+    font-family: Graphik;
+    font-size: 16px;
     font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+  }
+
+  .table-assets > div > div {
+    color: #b9bdea;
+    font-feature-settings: "clig" off, "liga" off;
+    font-family: Graphik;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
     line-height: 24px;
   }
-  .assets > div > div + div > span:first-child {
-    color: #fff;
-    font-weight: 600; /* 171.429% */
+
+  .chart {
+    width: 195px;
   }
-  .assets > div > div + div > span:first-child > * + * {
+  .table-assets > div > div + div {
+    color: #fff;
+  }
+  td > div > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 95px;
+  }
+  td > div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  span:first-child > * + * {
     margin-left: 5px;
   }
-  .assets > div > div + div > span + span {
-    color: #b9bdea;
-    font-weight: 400;
+  td:last-child,
+  th:last-child {
+    max-width: 40px;
   }
-
   .appreciation {
     color: #11cabe !important;
   }
@@ -563,13 +653,29 @@ body {
   .depreciation {
     color: #fa2256 !important;
   }
-
+  .button--buy > a {
+    display: flex;
+    padding: 12px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 100px;
+    border: 1px solid #246cf9;
+    text-decoration: none;
+    color: white;
+  }
+  .button--buy > a:hover {
+    border: 1px solid aquamarine;
+    color: gold;
+    background-color: darkturquoise;
+  }
   .view_more {
     display: inline-flex;
     align-items: center;
     gap: 16px;
     width: 100%;
     justify-content: center;
+    margin-top: 24px;
   }
 
   .view_more > span {
@@ -577,7 +683,7 @@ body {
     text-align: right;
     font-feature-settings: "clig" off, "liga" off;
     font-family: Sofia Pro;
-    font-size: 14px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 600;
     line-height: 22.4px; /* 160% */
@@ -600,7 +706,7 @@ body {
   }
 
   footer .logo {
-    margin-top: 64px;
+    margin-top: -10px;
     margin-bottom: 24px;
     flex-shrink: 0;
   }
@@ -624,7 +730,7 @@ body {
     color: #fff;
     font-feature-settings: "clig" off, "liga" off;
     font-family: Graphik;
-    font-size: 16px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 400;
     line-height: 27px; /* 168.75% */
@@ -638,13 +744,13 @@ body {
   .Quick_link > div {
     color: #fff;
     font-family: Sofia Pro;
-    font-size: 16px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 700;
     line-height: 120%; /* 19.2px */
   }
   .Quick_link > div + div {
-    margin-top: 16px;
+    margin-top: 20px;
     display: inline-flex;
     align-items: flex-start;
   }
@@ -652,7 +758,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
+    gap: 20px;
     flex: 1 0 0;
   }
   .Quick_link > div + div > div > div {
@@ -660,20 +766,16 @@ body {
     width: 148px;
     font-feature-settings: "clig" off, "liga" off;
     font-family: Graphik;
-    font-size: 14px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 24px; /* 171.429% */
-  }
-  .subscription {
-    margin-top: 40px;
-    margin-bottom: 40px;
   }
   .subscription > div {
     color: #fff;
     text-align: left;
     font-family: Sofia Pro;
-    font-size: 16px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 700;
     line-height: 120%; /* 19.2px */
@@ -682,7 +784,7 @@ body {
     color: #a5adcf;
     font-feature-settings: "clig" off, "liga" off;
     font-family: Graphik;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
     line-height: 24px; /* 171.429% */
     width: 327px;
@@ -744,8 +846,11 @@ body {
 
   footer > div {
     display: flex;
-    flex-direction: column;
-    gap: 16px;
+    gap: 118px;
+  }
+  footer > div > div {
+    margin-top: 113px;
+    margin-bottom: 100px;
   }
 
   .termOfService + div {
@@ -754,5 +859,27 @@ body {
 
   footer {
     padding-bottom: 32px;
+  }
+  .other-information > div {
+    color: var(--base-grey-60, #5d6588);
+    margin-top: 32px;
+    margin-bottom: 32px;
+  }
+  .menu-toggle {
+    display: none;
+  }
+
+  .menu-dropdown {
+    display: flex;
+    position: static;
+    align-items: center;
+    gap:102px;
+  }
+  .menu-dropdown ul{
+    display: flex;
+  }
+  .menu-dropdown ul a{
+    padding: 12px 24px;
+    cursor: pointer;
   }
 }

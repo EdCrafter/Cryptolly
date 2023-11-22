@@ -34,7 +34,7 @@ class Pagination
         $this->params = $params;
     }
     public function setLimit($limit) {
-        if ($limit && is_numeric($limit) && $limit > 4 && in_array($limit, $this->limits)) {
+        if ($limit && is_numeric($limit) && $limit > 2 && in_array($limit, $this->limits)) {
             $this->limit = $limit;
             $this->calcPages();
         }

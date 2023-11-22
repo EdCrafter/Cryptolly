@@ -67,8 +67,8 @@
             </form>
         </div>
     </div>
-    <div>
-        <hr>
+    <hr>
+    <div class="other-information">
         <div class="termOfService">
             <div>Term of Service</div>
             <div class="verticalLine"></div>
