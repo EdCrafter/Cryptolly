@@ -4,38 +4,40 @@ h1 {
   font-style: normal;
   font-weight: 700;
   line-height: 100%;
+  margin: 15px;
 }
 
-.form-sort{
+.form-sort {
   width: 1018px;
   display: flex;
   align-items: flex-start;
 }
-.form-sort .sort-field>div{
+.form-sort .sort-field > div {
   min-width: 30%;
 }
 /* .sort-field .max-len{
   width: 100%;
 } */
-.form-sort .sort-field>div *{
+.form-sort .sort-field > div * {
   width: 100%;
 }
-.form-sort .sort-field{
+.form-sort .sort-field {
   display: flex;
   flex-wrap: wrap;
-  gap:5px;
+  gap: 10px;
   align-items: center;
 }
-.form-sort form{
+.form-sort form {
   width: 100%;
 }
 
-.form-sort input[type="submit"]{
+.form-sort input[type="submit"] {
   margin-top: 20px;
   height: auto;
 }
 
-.sort-field input , .sort-field select{
+.sort-field input,
+.sort-field select {
   height: 25px;
   color: #7ce4cf;
   border: 1px solid #436e97;
@@ -44,16 +46,36 @@ h1 {
   background-color: #090d1e;
 }
 
-.form-sort h3{
+.form-sort h3 {
   text-align: center;
   font-size: xx-large;
+  margin: 0;
 }
-.form-sort h4{
+.form-sort h4 {
   text-align: center;
   font-size: large;
   margin: 0;
 }
 
-.form-sort{
+.form-sort {
   font-size: large;
+}
+
+.pagination a {
+  display: inline-block;
+  border: 1px solid #00adff;
+  padding: 9px;
+  margin: 8px;
+  background-color: #064769;
+  color: #4cffe2;
+  text-decoration: none;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 23px;
+}
+
+.pagination a.active {
+  background-color: #63ffbb;
+  color: #012eff;
+  border-color: #b800fe;
 }

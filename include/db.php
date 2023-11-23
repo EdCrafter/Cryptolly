@@ -108,7 +108,7 @@ class QueryBuilder {
 
     public function sql()
     {   
-
+        $this->sql = '';
         
         if ($this->insert)
         {
@@ -178,7 +178,12 @@ class DB {
     public function query($sql) {
         if (!$this->isConnect()) return false;
         $r = mysqli_query($this->con, $sql);
-        if (!$r) return false;
+        if (!$r) {
+            echo "s= ";
+            var_dump($sql);
+
+            return false;
+        }
         $rows = [];
         while ($row = mysqli_fetch_assoc($r)) {
             $rows[] = $row;
@@ -188,7 +193,9 @@ class DB {
     public function queryOne($sql) {
         if (!$this->isConnect()) return false;
         $r = mysqli_query($this->con, $sql);
-        if (!$r) return false;
+        if (!$r) { 
+            return false;
+        }
         return mysqli_fetch_assoc($r);
     }
     public function executeQuery($sql) {

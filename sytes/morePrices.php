@@ -8,25 +8,6 @@
     <link rel="stylesheet" href="../index.css">
     <link rel="stylesheet" href="../components/css/morePrices.css">
     <script src="../components/js/morePrices.js"></script>
-    <style>
-        .pagination a {
-            display: inline-block;
-            border: 1px solid #00adff;
-            padding: 9px;
-            margin: 8px;
-            background-color: #066952;
-            color: #001359;
-            text-decoration: none;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 23px;
-        }
-
-        .pagination a.active {
-            background-color: burlywood;
-            color: crimson;
-        }
-    </style>
 </head>
 
 <body>
@@ -112,6 +93,34 @@
                                 ?>
                             </div>
                         </div>
+                        <div class="max-len">
+                            <h4>
+                                Change,%
+                            </h4>
+                            <div>
+                                <div>
+                                    From:
+                                </div>
+                                <?php
+                                HtmlHelper::inputText("changeFrom", Request::get('changeFrom'));
+                                ?>
+                            </div>
+                            <div>
+                                <div>
+                                    To:
+                                </div>
+                                <?php
+                                HtmlHelper::inputText("changeTo", Request::get('changeTo'));
+                                ?>
+                            </div>
+                        </div>
+                        <div>
+                            <div> Changes per:</div>
+                            <?php
+                            $timeType = ['1 hour','1 day','7 day','1 month'];
+                            HtmlHelper::select("changes_per",$timeType ,Request::get('changes_per'));
+                            ?>
+                        </div>
                         <div>
                             <div> Terms:</div>
                             <?php
@@ -123,7 +132,9 @@
                 </form>
             </div>
             <div class="assets wide-content">
+                
                 <table>
+                    
                     <thead>
                         <tr>
                             <th>N</th>
@@ -138,10 +149,7 @@
 
 
                         <?php
-                        $sql = $mysqli->find("cryptocurrencies")->select('COUNT(crypto_id)');
-                        $count = $sql->rows()[0]['COUNT(crypto_id)'];
-                        $pagination->setRowsCount($count);
-                        $pagination->setPage(Request::get('page', 1));
+
                         $sql = $mysqli->find("prices")->select([
                             'MAX(img_svg) as img', 'MAX(ticker) as ticker',
                             'MAX(name) as name', 'MAX(currency_name) as currency', 'MAX(price) as price'
@@ -166,22 +174,65 @@
                             $params['name'] = Request::get('name');
                             $sql->where('name', 'LIKE', "%" . Request::get('name') . "%");
                         }
+                        if (Request::get('priceFrom') != null) {
+                            $params['priceFrom'] = Request::get('priceFrom');
+                            $sql->where('price', '>=',Request::get('priceFrom'));
+                        }
+                        if (Request::get('priceTo') != null) {
+                            $params['priceTo'] = Request::get('priceTo');
+                            $sql->where('price', '<=',Request::get('priceTo'));
+                        }
+                        
                         $sql->groupBy("cryptocurrencies.crypto_id")
                             ->orderBy("ABS(TIMESTAMPDIFF(SECOND, 
-                            CONCAT(MAX(prices.date), ' ',MAX(prices.time)), 
-                            NOW()))")
-                            ->offset($pagination->getFirst())->limit($pagination->getLimit());
+                        CONCAT(MAX(prices.date), ' ',MAX(prices.time)), 
+                        NOW()))");
+                        $rows = $mysqli->query($sql->sql());
+                        $count = count($rows);
+                        $sql->offset($pagination->getFirst())->limit($pagination->getLimit());
                         $sql = $sql->sql();
                         $rows = $mysqli->query($sql);
+                        $pagination->setRowsCount($count);
+                        $pagination->setPage(Request::get('page', 1));
+                        echo '<div class="pagination">';
+                        echo $pagination->show();
+                        echo '</div>';
                         if ($rows === false) {
                             echo 'Error select';
                         } else {
                             $pagination->setParams($params);
-                            echo '<div class="pagination">';
-                            echo $pagination->show();
-                            echo '</div>';
                             $num = $pagination->getFirst();
                             foreach ($rows as $row) {
+                                $change=0;
+                                $sign = '';
+                                if (Request::get('сhanges_per') != null) {
+                                    $timeBefore= Request::get('сhanges_per');  
+                                    $params['сhanges_per'] = $timeBefore;
+                                    $crypto_id = $mysqli->find('cryptocurrencies')->select('cryptocurrencies.crypto_id')
+                                    ->where('ticker','=',$row['ticker']);
+                                    $crypto_id = $mysqli->query($crypto_id->sql())[0]['crypto_id'];
+                                    $sql=$mysqli->find('prices')->select('price')->where('prices.crypto_id','=',$crypto_id)
+                                    ->orderBy("ABS(TIMESTAMPDIFF(SECOND, 
+                                    CONCAT(prices.date, ' ',prices.time), 
+                                    DATE_SUB(NOW(), INTERVAL $timeBefore)))")->limit(1);
+                                    $priceBefore = $mysqli->query($sql->sql())[0]['price'];
+                                    if(abs($row['price'])>0.00001){
+                                        $price = $row['price'];
+                                    } 
+                                    else{
+                                        $price = 0.00001;
+                                    }
+                                    $change = number_format(100-100*$priceBefore/$price ,2);
+                                    if ($change>100) {
+                                        $sign = '>';
+                                        $change =100;
+                                    }
+                                    if ($change<-100) {
+                                        $sign = '<';
+                                        $change =-100;
+                                    }
+                                }
+                    
                                 echo '<tr>';
                                 echo "<td><div>" . ($num + 1) . "</div></td>";
                                 echo "<td class='table-assets'>";
@@ -195,7 +246,7 @@
                                 echo "</td>";
                                 echo "<td><div><span><span>" . $row['currency'] . "</span><span>" . $row['price'] . '</span></span></div></td>';
                                 echo "<td>";
-                                echo '<div><span class="appreciation">2.43%</span></div>';
+                                echo '<div><span class="appreciation">'.$change.'%</span></div>';
                                 echo "</td>";
                                 echo "<td class='chart'><div>";
                                 echo '<span ><img src="/img/graphikEx.svg" alt="chart"></span>';
@@ -210,6 +261,11 @@
                         ?>
                     </tbody>
                 </table>
+                <?php
+                echo '<div class="pagination">';
+                echo $pagination->show();
+                echo '</div>';
+                ?>
             </div>
         </div>
     </div>
