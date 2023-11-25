@@ -81,7 +81,7 @@
                                     From:
                                 </div>
                                 <?php
-                                HtmlHelper::inputText("priceFrom", Request::get('priceFrom'));
+                                HtmlHelper::inputText("priceFrom", Request::get('priceFrom'),'number');
                                 ?>
                             </div>
                             <div>
@@ -89,7 +89,7 @@
                                     To:
                                 </div>
                                 <?php
-                                HtmlHelper::inputText("priceTo", Request::get('priceTo'));
+                                HtmlHelper::inputText("priceTo", Request::get('priceTo'),'number');
                                 ?>
                             </div>
                         </div>
@@ -102,7 +102,7 @@
                                     From:
                                 </div>
                                 <?php
-                                HtmlHelper::inputText("changeFrom", Request::get('changeFrom'));
+                                HtmlHelper::inputText("changeFrom", Request::get('changeFrom'),'number');
                                 ?>
                             </div>
                             <div>
@@ -110,7 +110,7 @@
                                     To:
                                 </div>
                                 <?php
-                                HtmlHelper::inputText("changeTo", Request::get('changeTo'));
+                                HtmlHelper::inputText("changeTo", Request::get('changeTo'),'number');
                                 ?>
                             </div>
                         </div>
@@ -185,9 +185,9 @@
                             $sql->where('prices.crypto_id', '=', "$ticker");
                         }
                         if (!empty(Request::get('name'))) {
-                            echo "222222222222222";
-                            $params['name'] = Request::get('name');
-                            $sql->where('name', 'LIKE', "%" . Request::get('name') . "%");
+                            $name = htmlentities(Request::get('name'));
+                            $params['name'] = $name ;
+                            $sql->where('name', 'LIKE', "%" . $name . "%");
                         }
                         if (!empty(Request::get('priceFrom'))) {
                             $params['priceFrom'] = Request::get('priceFrom');
@@ -196,6 +196,9 @@
                         if (!empty(Request::get('priceTo'))) {
                             $params['priceTo'] = Request::get('priceTo');
                             $sql->where('price', '<=',Request::get('priceTo'));
+                        }
+                        if (!empty(Request::get('changes_per'))) {
+                            $params['changes_per'] = Request::get('changes_per');
                         }
                         if (!empty(Request::get('changeFrom'))) {
                             $params['changeFrom'] = Request::get('changeFrom');
@@ -227,7 +230,6 @@
                                 $visibility = '';
                                 if (Request::get('changes_per') !== null) {
                                     $timeBefore= Request::get('changes_per');  
-                                    $params['changes_per'] = $timeBefore;
                                     $crypto_id = $mysqli->find('cryptocurrencies')->select('cryptocurrencies.crypto_id')
                                     ->where('ticker','=',$row['ticker']);
                                     $crypto_id = $mysqli->query($crypto_id->sql())[0]['crypto_id'];
@@ -308,6 +310,9 @@
                 echo '</div>';
                 ?>
             </div>
+            <?php
+            include("../components/footer.php");
+            ?>
         </div>
     </div>
 </body>

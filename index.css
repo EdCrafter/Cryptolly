@@ -588,6 +588,7 @@ ul{
   }
 
   table {
+    margin-top: 15px;
     width: 1038px;
     border-radius: 12px;
     background: rgba(47, 50, 65, 0.5);

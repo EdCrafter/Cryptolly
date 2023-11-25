@@ -19,9 +19,9 @@ class HtmlHelper {
         </select>
         <?php
     }
-    static function inputText($name, $value) {
+    static function inputText($name, $value,$type='text') {
         ?>
-        <input type="text" id="<?=$name?>" name="<?=$name?>" value="<?=(!empty($value))?htmlspecialchars($value):''?>">
+        <input type="<?=$type?>" id="<?=$name?>" name="<?=$name?>" value="<?=(!empty($value))?htmlspecialchars($value):''?>">
         <?php
     }
 }
