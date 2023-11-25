@@ -30,9 +30,10 @@ class QueryBuilder {
         ];
         return $this;
     }
-    public function join($t, $c) {
+    public function join($t, $c,$q=null) {
         $this->join[] = [
             'type' => 'JOIN ',
+            'joinQuery' => $q,
             'table' => $t,
             'condition' => $c
         ];
@@ -125,7 +126,7 @@ class QueryBuilder {
             $this->sql .= implode(',', $this->select);
             $this->sql .= ' FROM ' . $this->from;
             foreach($this->join as $item) {
-                $this->sql .= ' '. $item['type'] . ' ' . $item['table'] . ' ON ' . $this->buildWhere($item['condition'], true);
+                $this->sql .= ' '. $item['type'] . (($item['joinQuery'])?'(':'').$item['joinQuery'].(($item['joinQuery'])?')':'') . $item['table'] . ' ON ' . $this->buildWhere($item['condition'], true);
             }
             if ($this->where) {
                 $this->sql .= ' WHERE '. $this->buildWhere($this->where );

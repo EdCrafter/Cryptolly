@@ -150,21 +150,35 @@
 
                         <?php
 
-                        $sql = $mysqli->find("prices")->select([
-                            'MAX(img_svg) as img', 'MAX(ticker) as ticker',
-                            'MAX(name) as name', 'MAX(currency_name) as currency', 'MAX(price) as price'
+                        $sql = $mysqli->find("cryptocurrencies c")->select([
+                            'c.img_svg as img', 'c.ticker',
+                            'c.name', 'cu.currency_name as currency', 'p.price'
                         ])
-                            ->join('cryptocurrencies', [[
-                                'field' => 'prices.crypto_id',
+                            ->join(' max_datetime', [[
+                                'field' => 'c.crypto_id',
                                 'condition' => '=',
-                                'value' => 'cryptocurrencies.crypto_id'
-                            ]])
-                            ->join('currency', [[
-                                'field' => 'prices.currency_id',
+                                'value' => 'max_datetime.crypto_id'
+                            ]],(
+                                $mysqli->find('prices')
+                                ->select(['crypto_id',"MAX(CONCAT(date, ' ', time)) as max_datetime"])
+                                ->groupBy("crypto_id")->sql()
+                            ))
+                            ->join('prices p ', [[
+                                'field' => 'p.crypto_id',
                                 'condition' => '=',
-                                'value' => 'currency.currency_id'
+                                'value' => 'c.crypto_id'
+                            ],
+                            [
+                                'field' => "CONCAT(p.date, ' ', p.time)",
+                                'condition' => '=',
+                                'value' => 'max_datetime.max_datetime'
+                            ]
+                            ])
+                            ->join('currency cu', [[
+                                'field' => 'p.currency_id',
+                                'condition' => '=',
+                                'value' => 'cu.currency_id'
                             ]]);
-
                         $params = [];
                         if ($ticker) {
                             $params['crypto_id'] = $ticker;
@@ -183,10 +197,7 @@
                             $sql->where('price', '<=',Request::get('priceTo'));
                         }
                         
-                        $sql->groupBy("cryptocurrencies.crypto_id")
-                            ->orderBy("ABS(TIMESTAMPDIFF(SECOND, 
-                        CONCAT(MAX(prices.date), ' ',MAX(prices.time)), 
-                        NOW()))");
+                        $sql->orderBy("ABS(TIMESTAMPDIFF(SECOND, max_datetime.max_datetime, NOW()))");
                         $rows = $mysqli->query($sql->sql());
                         $count = count($rows);
                         $sql->offset($pagination->getFirst())->limit($pagination->getLimit());
@@ -205,9 +216,10 @@
                             foreach ($rows as $row) {
                                 $change=0;
                                 $sign = '';
-                                if (Request::get('сhanges_per') != null) {
-                                    $timeBefore= Request::get('сhanges_per');  
-                                    $params['сhanges_per'] = $timeBefore;
+                                $class = '';
+                                if (Request::get('changes_per') !== null) {
+                                    $timeBefore= Request::get('changes_per');  
+                                    $params['changes_per'] = $timeBefore;
                                     $crypto_id = $mysqli->find('cryptocurrencies')->select('cryptocurrencies.crypto_id')
                                     ->where('ticker','=',$row['ticker']);
                                     $crypto_id = $mysqli->query($crypto_id->sql())[0]['crypto_id'];
@@ -216,23 +228,35 @@
                                     CONCAT(prices.date, ' ',prices.time), 
                                     DATE_SUB(NOW(), INTERVAL $timeBefore)))")->limit(1);
                                     $priceBefore = $mysqli->query($sql->sql())[0]['price'];
-                                    if(abs($row['price'])>0.00001){
-                                        $price = $row['price'];
-                                    } 
-                                    else{
-                                        $price = 0.00001;
+                                    $price = $row['price'];
+                                    if($priceBefore<0.001){
+                                        if($price<0.001){
+                                            $priceBefore= $price=1;
+                                        }
+                                        else{
+
+                                            $priceBefore= 0.001;
+                                        }
                                     }
-                                    $change = number_format(100-100*$priceBefore/$price ,2);
+                                    $change=(100*$price)/$priceBefore-100 ;
                                     if ($change>100) {
                                         $sign = '>';
                                         $change =100;
                                     }
                                     if ($change<-100) {
-                                        $sign = '<';
+                                        $sign= '<';
                                         $change =-100;
                                     }
+                                    if ($change>0) {
+                                        $class = 'appreciation';
+                                    }
+                                    if ($change<0) {
+                                        $class = 'depreciation';
+                                        $change =-$change;
+                                    }
+                                    $change = number_format(($change) ,2);
+                                    
                                 }
-                    
                                 echo '<tr>';
                                 echo "<td><div>" . ($num + 1) . "</div></td>";
                                 echo "<td class='table-assets'>";
@@ -246,7 +270,7 @@
                                 echo "</td>";
                                 echo "<td><div><span><span>" . $row['currency'] . "</span><span>" . $row['price'] . '</span></span></div></td>';
                                 echo "<td>";
-                                echo '<div><span class="appreciation">'.$change.'%</span></div>';
+                                echo '<div><span class='.$class.'>'.$sign.$change.'%</span></div>';
                                 echo "</td>";
                                 echo "<td class='chart'><div>";
                                 echo '<span ><img src="/img/graphikEx.svg" alt="chart"></span>';

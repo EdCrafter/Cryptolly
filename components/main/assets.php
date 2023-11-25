@@ -68,24 +68,36 @@ include_once("include/db.php");
                         "db" => "cryptolly",
                     ]
                 );
-                $sql = $mysqli->find("prices")->select([
-                    'MAX(img_svg) as img', 'MAX(ticker) as ticker',
-                    'MAX(name) as name', 'MAX(currency_name) as currency', 'MAX(price) as price'
+                $sql = $mysqli->find("cryptocurrencies c")->select([
+                    'c.img_svg as img', 'c.ticker',
+                    'c.name', 'cu.currency_name as currency', 'p.price'
                 ])
-                    ->join('cryptocurrencies', [[
-                        'field' => 'prices.crypto_id',
+                    ->join(' max_datetime', [[
+                        'field' => 'c.crypto_id',
                         'condition' => '=',
-                        'value' => 'cryptocurrencies.crypto_id'
-                    ]])
-                    ->join('currency', [[
-                        'field' => 'prices.currency_id',
+                        'value' => 'max_datetime.crypto_id'
+                    ]],(
+                        $mysqli->find('prices')
+                        ->select(['crypto_id',"MAX(CONCAT(date, ' ', time)) as max_datetime"])
+                        ->groupBy("crypto_id")->sql()
+                    ))
+                    ->join('prices p ', [[
+                        'field' => 'p.crypto_id',
                         'condition' => '=',
-                        'value' => 'currency.currency_id'
+                        'value' => 'c.crypto_id'
+                    ],
+                    [
+                        'field' => "CONCAT(p.date, ' ', p.time)",
+                        'condition' => '=',
+                        'value' => 'max_datetime.max_datetime'
+                    ]
+                    ])
+                    ->join('currency cu', [[
+                        'field' => 'p.currency_id',
+                        'condition' => '=',
+                        'value' => 'cu.currency_id'
                     ]])
-                    ->groupBy("cryptocurrencies.crypto_id")
-                    ->orderBy("ABS(TIMESTAMPDIFF(SECOND, 
-                CONCAT(MAX(prices.date), ' ',MAX(prices.time)), 
-                NOW()))")
+                    ->orderBy("ABS(TIMESTAMPDIFF(SECOND, max_datetime.max_datetime, NOW()))")
                     ->limit(7);
                 $rows = $sql->rows();
                 if ($rows === false) {
@@ -146,21 +158,22 @@ include_once("include/db.php");
 
 /*
  SELECT
-  MAX(cryptocurrencies.name) as name,
-  MAX(cryptocurrencies.img_svg) as img,
-  MAX(cryptocurrencies.ticker) as ticker,
-  MAX(currency.currency_name) as currency,
-  MAX(prices.price) as price
-FROM
-  prices
-JOIN
-  cryptocurrencies ON prices.crypto_id = cryptocurrencies.crypto_id
-JOIN
-  currency ON prices.currency_id = currency.currency_id
-GROUP BY
-  cryptocurrencies.crypto_id
-ORDER BY
-  ABS(TIMESTAMPDIFF(SECOND, CONCAT(MAX(prices.date), ' ', MAX(prices.time)), NOW()))
+  c.img_svg as img,
+  c.ticker,
+  c.name,
+  cu.currency_name as currency,
+  p.price
+FROM cryptocurrencies c
+JOIN (
+  SELECT
+    crypto_id,
+    MAX(CONCAT(date, ' ', time)) as max_datetime
+  FROM prices
+  GROUP BY crypto_id
+) max_datetime ON c.crypto_id = max_datetime.crypto_id
+JOIN prices p ON c.crypto_id = p.crypto_id AND CONCAT(p.date, ' ', p.time) = max_datetime.max_datetime
+JOIN currency cu ON p.currency_id = cu.currency_id
+ORDER BY ABS(TIMESTAMPDIFF(SECOND, max_datetime.max_datetime, NOW()));
 LIMIT 7;
  */
 ?>
