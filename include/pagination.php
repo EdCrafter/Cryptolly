@@ -70,6 +70,9 @@ class Pagination
     public function getParams($page) {
         return "?page=".$page."&limit=".$this->limit.'&'.http_build_query($this->params);
     }
+    public function getArrParams() {
+        return $this->params;
+    }
 
     public function show() {
         if ($this->pageCount < 2) return '';

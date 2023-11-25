@@ -39,7 +39,7 @@ h1 {
 .sort-field input,
 .sort-field select {
   height: 25px;
-  color: #7ce4cf;
+  color: #7ce4cf !important;
   border: 1px solid #436e97;
   border-radius: 5px;
   font-size: large;

@@ -17,7 +17,7 @@
     include_once("../include/html.php");
     include_once("../include/request.php");
     ?>
-    <div class="main_container">
+    <div class="main_container" >
         <div class="container">
             <?php
             include("../components/main/hero.php");
@@ -184,39 +184,47 @@
                             $params['crypto_id'] = $ticker;
                             $sql->where('prices.crypto_id', '=', "$ticker");
                         }
-                        if (Request::get('name') != null) {
+                        if (!empty(Request::get('name'))) {
+                            echo "222222222222222";
                             $params['name'] = Request::get('name');
                             $sql->where('name', 'LIKE', "%" . Request::get('name') . "%");
                         }
-                        if (Request::get('priceFrom') != null) {
+                        if (!empty(Request::get('priceFrom'))) {
                             $params['priceFrom'] = Request::get('priceFrom');
                             $sql->where('price', '>=',Request::get('priceFrom'));
                         }
-                        if (Request::get('priceTo') != null) {
+                        if (!empty(Request::get('priceTo'))) {
                             $params['priceTo'] = Request::get('priceTo');
                             $sql->where('price', '<=',Request::get('priceTo'));
                         }
-                        
+                        if (!empty(Request::get('changeFrom'))) {
+                            $params['changeFrom'] = Request::get('changeFrom');
+                        }
+                        if (!empty(Request::get('changeTo'))){
+                            $params['changeTo'] = Request::get('changeTo');
+                        }
                         $sql->orderBy("ABS(TIMESTAMPDIFF(SECOND, max_datetime.max_datetime, NOW()))");
                         $rows = $mysqli->query($sql->sql());
                         $count = count($rows);
+                        $pagination->setRowsCount($count);
+                        $pagination->setPage(Request::get('page', 1));
                         $sql->offset($pagination->getFirst())->limit($pagination->getLimit());
                         $sql = $sql->sql();
                         $rows = $mysqli->query($sql);
-                        $pagination->setRowsCount($count);
-                        $pagination->setPage(Request::get('page', 1));
+                        
+                        $pagination->setParams($params);
                         echo '<div class="pagination">';
                         echo $pagination->show();
                         echo '</div>';
                         if ($rows === false) {
                             echo 'Error select';
                         } else {
-                            $pagination->setParams($params);
                             $num = $pagination->getFirst();
                             foreach ($rows as $row) {
                                 $change=0;
                                 $sign = '';
-                                $class = '';
+                                $class = null;
+                                $visibility = '';
                                 if (Request::get('changes_per') !== null) {
                                     $timeBefore= Request::get('changes_per');  
                                     $params['changes_per'] = $timeBefore;
@@ -247,6 +255,16 @@
                                         $sign= '<';
                                         $change =-100;
                                     }
+                                    if (
+                                        ($change<$pagination->getArrParams()['changeFrom'] || 
+                                         $change>$pagination->getArrParams()['changeTo']) 
+                                         &&
+                                         (!empty($pagination->getArrParams()['changeFrom'])|| 
+                                         !empty($pagination->getArrParams()['changeTo']) )
+                                         ){
+                                        $visibility = 'none';
+                                        $num--;
+                                    }
                                     if ($change>0) {
                                         $class = 'appreciation';
                                     }
@@ -255,9 +273,8 @@
                                         $change =-$change;
                                     }
                                     $change = number_format(($change) ,2);
-                                    
                                 }
-                                echo '<tr>';
+                                echo '<tr '.(($visibility)?('style="display: '. $visibility.';"'): $visibility).'>';
                                 echo "<td><div>" . ($num + 1) . "</div></td>";
                                 echo "<td class='table-assets'>";
                                 echo "<div>";
