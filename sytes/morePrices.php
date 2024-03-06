@@ -182,7 +182,7 @@
                         $params = [];
                         if ($ticker) {
                             $params['crypto_id'] = $ticker;
-                            $sql->where('prices.crypto_id', '=', "$ticker");
+                            $sql->where('p.crypto_id', '=', "$ticker");
                         }
                         if (!empty(Request::get('name'))) {
                             $name = htmlentities(Request::get('name'));
