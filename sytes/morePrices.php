@@ -17,6 +17,16 @@
     include_once("../include/html.php");
     include_once("../include/request.php");
     ?>
+    <pre>
+        endfor
+        feof
+        read_exif_data
+        returnf
+        f
+    </pre>
+    <div>
+        <img src="../include/image.php" alt="">
+    </div>
     <div class="main_container" >
         <div class="container">
             <?php
