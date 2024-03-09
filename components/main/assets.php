@@ -1,5 +1,6 @@
 <?php
 include_once("include/db.php");
+include_once("include/image.php");
 ?>
 
 <div id="assets-container">
@@ -104,7 +105,62 @@ include_once("include/db.php");
                     echo 'Error select';
                 } else {
                     foreach ($rows as $row) {
+                        $change=0;
+                        $sign = '';
+                        $class = null;
+                        $visibility = '';
+                    
+                        $timeBefore= '1 day';  
+                        $crypto_id = $mysqli->find('cryptocurrencies')->select('cryptocurrencies.crypto_id')
+                        ->where('ticker','=',$row['ticker']);
+                        $crypto_id = $mysqli->query($crypto_id->sql())[0]['crypto_id'];
+                        $sql=$mysqli->find('prices')->select('price')->where('prices.crypto_id','=',$crypto_id)
+                        ->orderBy("ABS(TIMESTAMPDIFF(SECOND, 
+                        CONCAT(prices.date, ' ',prices.time), 
+                        DATE_SUB(NOW(), INTERVAL $timeBefore)))")->limit(12);
+        
+                        $arrCh=[];
+                        $i=0;
+                        $price = $row['price'];
+                        $sumCh=0;
+                        while ($i<12){
+                            $priceBefore = $mysqli->query($sql->sql())[$i]['price'];
+                            
+                            if($priceBefore<0.001){
+                                if($price<0.001){
+                                    $priceBefore= $price=1;
+                                }
+                                else{
+
+                                    $priceBefore= 0.001;
+                                }
+                            }
+                            $change=(100*$price)/$priceBefore-100 ;
+                            
+                            $arrCh[] = $change;
+                            $sumCh+=$change;
+                            $price = $priceBefore;
+                            $i++;
+                        }
+                    
+                        if ($arrCh[0]>100) {
+                            $sign = '>';
+                            $arrCh[0] =100;
+                        }
+                        if ($arrCh[0]<-100) {
+                            $sign= '<';
+                            $arrCh[0] =-100;
+                        }
+                        if ($arrCh[0]>0) {
+                            $class = 'appreciation';
+                        }
+                        if ($arrCh[0]<0) {
+                            $class = 'depreciation';
+                        }
+                        $change = number_format(($arrCh[0]) ,2);
+                    
                         echo '<tr>';
+                        echo "<td><div>" . ($num + 1) . "</div></td>";
                         echo "<td class='table-assets'>";
                         echo "<div>";
                         echo "<div>";
@@ -116,15 +172,39 @@ include_once("include/db.php");
                         echo "</td>";
                         echo "<td><div><span><span>" . $row['currency'] . "</span><span>" . $row['price'] . '</span></span></div></td>';
                         echo "<td>";
-                        echo '<div><span class="appreciation">2.43%</span></div>';
+                        echo '<div><span class='.$class.'>'.$sign.$change.'%</span></div>';
                         echo "</td>";
                         echo "<td class='chart'><div>";
-                        echo '<span ><img src="/img/graphikEx.svg" alt="chart"></span>';
+                        $diagr = new Diagram();
+                        $diagr->setWidth(180);
+                        $diagr->setHeight(70);
+                        $diagr->setMin(0);
+                        $diagr->setBgColor(30,33,50);
+                        $diagr->setAxisColor(255,255,255);
+                        $diagr->setColors([
+                            [255, 0, 0],
+                            [0, 255, 0],
+                        ]);
+                        if (! $sumCh){
+
+                            $arrCh = [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,10];
+                        }
+                        $arrCh = array_reverse($arrCh);
+                        $diagr->setData($arrCh);
+                        ob_start();
+                        $diagr->draw();
+                        $imageData = ob_get_clean();
+                        $imagePath = 'img/image.png';
+                        $image = imagecreatefromstring($imageData);
+                        imagepng($image, $imagePath);
+                        $imageDataEncoded = base64_encode(file_get_contents($imagePath));
+                        echo '<img src="data:image/png;base64,' . $imageDataEncoded . '" alt="chart">';
                         echo "</div></td>";
                         echo "<td><div class='button--buy'>";
                         echo '<a href="#">Buy</a>';
                         echo "</div></td>";
                         echo "</tr>";
+                        $num++;
                     }
                 }
                 ?>

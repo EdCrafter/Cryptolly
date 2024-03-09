@@ -16,17 +16,8 @@
     include_once("../include/pagination.php");
     include_once("../include/html.php");
     include_once("../include/request.php");
+    include_once("../include/image.php");
     ?>
-    <pre>
-        endfor
-        feof
-        read_exif_data
-        returnf
-        f
-    </pre>
-    <div>
-        <img src="../include/image.php" alt="">
-    </div>
     <div class="main_container" >
         <div class="container">
             <?php
@@ -240,15 +231,25 @@
                                 $visibility = '';
                                 if (Request::get('changes_per') !== null) {
                                     $timeBefore= Request::get('changes_per');  
-                                    $crypto_id = $mysqli->find('cryptocurrencies')->select('cryptocurrencies.crypto_id')
-                                    ->where('ticker','=',$row['ticker']);
-                                    $crypto_id = $mysqli->query($crypto_id->sql())[0]['crypto_id'];
-                                    $sql=$mysqli->find('prices')->select('price')->where('prices.crypto_id','=',$crypto_id)
-                                    ->orderBy("ABS(TIMESTAMPDIFF(SECOND, 
-                                    CONCAT(prices.date, ' ',prices.time), 
-                                    DATE_SUB(NOW(), INTERVAL $timeBefore)))")->limit(1);
-                                    $priceBefore = $mysqli->query($sql->sql())[0]['price'];
-                                    $price = $row['price'];
+                                }
+                                else{
+                                    $timeBefore = '1 hour';
+                                }
+                                $crypto_id = $mysqli->find('cryptocurrencies')->select('cryptocurrencies.crypto_id')
+                                ->where('ticker','=',$row['ticker']);
+                                $crypto_id = $mysqli->query($crypto_id->sql())[0]['crypto_id'];
+                                $sql=$mysqli->find('prices')->select('price')->where('prices.crypto_id','=',$crypto_id)
+                                ->orderBy("ABS(TIMESTAMPDIFF(SECOND, 
+                                CONCAT(prices.date, ' ',prices.time), 
+                                DATE_SUB(NOW(), INTERVAL $timeBefore)))")->limit(12);
+                
+                                $arrCh=[];
+                                $i=0;
+                                $price = $row['price'];
+                                $sumCh=0;
+                                while ($i<12){
+                                    $priceBefore = $mysqli->query($sql->sql())[$i]['price'];
+                                    
                                     if($priceBefore<0.001){
                                         if($price<0.001){
                                             $priceBefore= $price=1;
@@ -259,33 +260,39 @@
                                         }
                                     }
                                     $change=(100*$price)/$priceBefore-100 ;
-                                    if ($change>100) {
-                                        $sign = '>';
-                                        $change =100;
-                                    }
-                                    if ($change<-100) {
-                                        $sign= '<';
-                                        $change =-100;
-                                    }
-                                    if (
-                                        ($change<$pagination->getArrParams()['changeFrom'] || 
-                                         $change>$pagination->getArrParams()['changeTo']) 
-                                         &&
-                                         (!empty($pagination->getArrParams()['changeFrom'])|| 
-                                         !empty($pagination->getArrParams()['changeTo']) )
-                                         ){
-                                        $visibility = 'none';
-                                        $num--;
-                                    }
-                                    if ($change>0) {
-                                        $class = 'appreciation';
-                                    }
-                                    if ($change<0) {
-                                        $class = 'depreciation';
-                                        $change =-$change;
-                                    }
-                                    $change = number_format(($change) ,2);
+                                    
+                                    $arrCh[] = $change;
+                                    $sumCh+=$change;
+                                    $price = $priceBefore;
+                                    $i++;
                                 }
+                            
+                                if ($arrCh[0]>100) {
+                                    $sign = '>';
+                                    $arrCh[0] =100;
+                                }
+                                if ($arrCh[0]<-100) {
+                                    $sign= '<';
+                                    $arrCh[0] =-100;
+                                }
+                                if (
+                                    ($arrCh[0]<$pagination->getArrParams()['changeFrom'] || 
+                                    $arrCh[0]>$pagination->getArrParams()['changeTo']) 
+                                        &&
+                                        (!empty($pagination->getArrParams()['changeFrom'])|| 
+                                        !empty($pagination->getArrParams()['changeTo']) )
+                                        ){
+                                    $visibility = 'none';
+                                    $num--;
+                                }
+                                if ($arrCh[0]>0) {
+                                    $class = 'appreciation';
+                                }
+                                if ($arrCh[0]<0) {
+                                    $class = 'depreciation';
+                                }
+                                $change = number_format(($arrCh[0]) ,2);
+                                
                                 echo '<tr '.(($visibility)?('style="display: '. $visibility.';"'): $visibility).'>';
                                 echo "<td><div>" . ($num + 1) . "</div></td>";
                                 echo "<td class='table-assets'>";
@@ -302,7 +309,30 @@
                                 echo '<div><span class='.$class.'>'.$sign.$change.'%</span></div>';
                                 echo "</td>";
                                 echo "<td class='chart'><div>";
-                                echo '<span ><img src="/img/graphikEx.svg" alt="chart"></span>';
+                                $diagr = new Diagram();
+                                $diagr->setWidth(180);
+                                $diagr->setHeight(70);
+                                $diagr->setMin(0);
+                                $diagr->setBgColor(30,33,50);
+                                $diagr->setAxisColor(255,255,255);
+                                $diagr->setColors([
+                                    [255, 0, 0],
+                                    [0, 255, 0],
+                                ]);
+                                if (! $sumCh){
+
+                                    $arrCh = [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,10];
+                                }
+                                $arrCh = array_reverse($arrCh);
+                                $diagr->setData($arrCh);
+                                ob_start();
+                                $diagr->draw();
+                                $imageData = ob_get_clean();
+                                $imagePath = 'img/image.png';
+                                $image = imagecreatefromstring($imageData);
+                                imagepng($image, $imagePath);
+                                $imageDataEncoded = base64_encode(file_get_contents($imagePath));
+                                echo '<img src="data:image/png;base64,' . $imageDataEncoded . '" alt="chart">';
                                 echo "</div></td>";
                                 echo "<td><div class='button--buy'>";
                                 echo '<a href="#">Buy</a>';

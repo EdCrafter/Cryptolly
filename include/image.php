@@ -70,6 +70,8 @@ class Diagram {
     public function setMin($m) { $this->min = $m; }
     public function setMax($m) { $this->max = $m; }
     public function setBgImage($i) { $this->bgImage = $i; }
+    public function create() { $this->draw();}
+    public function getImage() { return $this->image; }
 
 
     protected function addColor($a) {
@@ -82,7 +84,7 @@ class Diagram {
 
     public function draw($format = "png") {
         if (!$this->data || !is_array($this->data)) throw new Exception("Error diagr data");
-        header("Content-type: image/" . $format);
+        //header("Content-type: image/" . $format);
         $min = $this->min;
         $max = $this->max;
         foreach($this->data as $v) {
@@ -211,20 +213,20 @@ class Diagram {
 
 }
 
-$diagr = new Diagram();
-$diagr->setWidth(180);
-$diagr->setHeight(70);
-$diagr->setMin(0);
-$diagr->setBgColor(28,32,45);
-$diagr->setAxisColor(255,255,255);
-$diagr->setColors([
-    [255, 0, 0],
-    [0, 255, 0],
-]);
+// $diagr = new Diagram();
+// $diagr->setWidth(180);
+// $diagr->setHeight(70);
+// $diagr->setMin(0);
+// $diagr->setBgColor(28,32,45);
+// $diagr->setAxisColor(255,255,255);
+// $diagr->setColors([
+//     [255, 0, 0],
+//     [0, 255, 0],
+// ]);
 
-$mem = [
-    50,200,100,-10,150,300,250,200,100,50,0,100,200,-300,400
-];
-$diagr->setData($mem);
+// $mem = [
+//     50,200,100,-10,150,300,250,200,100,50,0,100,200,-300,400
+// ];
+// $diagr->setData($mem);
 
-$diagr->draw();
+// $diagr->draw();
