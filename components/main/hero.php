@@ -32,10 +32,11 @@
           <button class="button-container--light">
             Sign in
           </button>
-          <button class="button-container">
+          <button class="button-container" onclick="window.location.href = '../../sytes/registration.php';">
             Get Started
           </button>
         </div>
+        
       </div>
     </div>
   </div>
