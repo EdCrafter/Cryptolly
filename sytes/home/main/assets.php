@@ -211,7 +211,7 @@ include_once("include/image.php");
             </tbody>
         </table>
     </div>
-    <a href="/sytes/morePrices.php">
+    <a href="/sytes/morePrices/morePrices.php">
         <div class="view_more">
             <span>View more prices</span>
             <div>

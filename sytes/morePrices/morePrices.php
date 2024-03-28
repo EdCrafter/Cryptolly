@@ -5,24 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prices</title>
-    <link rel="stylesheet" href="../index.css">
-    <link rel="stylesheet" href="../components/css/morePrices.css">
-    <script src="../components/js/morePrices.js"></script>
+    <link rel="stylesheet" href="../../css/index.css">
+    <link rel="stylesheet" href="../../components/css/morePrices.css">
+    <script src="../../components/js/morePrices.js"></script>
 </head>
 
 <body>
     <?php
-    include_once("../include/db.php");
-    include_once("../include/pagination.php");
-    include_once("../include/html.php");
-    include_once("../include/request.php");
-    include_once("../include/image.php");
+    include_once("../../include/db.php");
+    include_once("../../include/pagination.php");
+    include_once("../../include/html.php");
+    include_once("../../include/request.php");
+    include_once("../../include/image.php");
     ?>
-    <div class="main_container" >
+    <div class="main_container">
         <div class="container">
-            <?php
-            include("../components/main/hero.php");
-            ?>
+            <header>
+                <?php
+                include("../home/header.php");
+                ?>
+            </header>
+
             <?php
             $pagination = new Pagination();
             $pagination->limits = [3, 10, 50];
@@ -82,7 +85,7 @@
                                     From:
                                 </div>
                                 <?php
-                                HtmlHelper::inputText("priceFrom", Request::get('priceFrom'),'number');
+                                HtmlHelper::inputText("priceFrom", Request::get('priceFrom'), 'number');
                                 ?>
                             </div>
                             <div>
@@ -90,7 +93,7 @@
                                     To:
                                 </div>
                                 <?php
-                                HtmlHelper::inputText("priceTo", Request::get('priceTo'),'number');
+                                HtmlHelper::inputText("priceTo", Request::get('priceTo'), 'number');
                                 ?>
                             </div>
                         </div>
@@ -103,7 +106,7 @@
                                     From:
                                 </div>
                                 <?php
-                                HtmlHelper::inputText("changeFrom", Request::get('changeFrom'),'number');
+                                HtmlHelper::inputText("changeFrom", Request::get('changeFrom'), 'number');
                                 ?>
                             </div>
                             <div>
@@ -111,15 +114,15 @@
                                     To:
                                 </div>
                                 <?php
-                                HtmlHelper::inputText("changeTo", Request::get('changeTo'),'number');
+                                HtmlHelper::inputText("changeTo", Request::get('changeTo'), 'number');
                                 ?>
                             </div>
                         </div>
                         <div>
                             <div> Changes per:</div>
                             <?php
-                            $timeType = ['1 hour','1 day','7 day','1 month'];
-                            HtmlHelper::select("changes_per",$timeType ,Request::get('changes_per'));
+                            $timeType = ['1 hour', '1 day', '7 day', '1 month'];
+                            HtmlHelper::select("changes_per", $timeType, Request::get('changes_per'));
                             ?>
                         </div>
                         <div>
@@ -133,9 +136,9 @@
                 </form>
             </div>
             <div class="assets wide-content">
-                
+
                 <table>
-                    
+
                     <thead>
                         <tr>
                             <th>N</th>
@@ -159,21 +162,22 @@
                                 'field' => 'c.crypto_id',
                                 'condition' => '=',
                                 'value' => 'max_datetime.crypto_id'
-                            ]],(
+                            ]], (
                                 $mysqli->find('prices')
-                                ->select(['crypto_id',"MAX(CONCAT(date, ' ', time)) as max_datetime"])
+                                ->select(['crypto_id', "MAX(CONCAT(date, ' ', time)) as max_datetime"])
                                 ->groupBy("crypto_id")->sql()
                             ))
-                            ->join('prices p ', [[
-                                'field' => 'p.crypto_id',
-                                'condition' => '=',
-                                'value' => 'c.crypto_id'
-                            ],
-                            [
-                                'field' => "CONCAT(p.date, ' ', p.time)",
-                                'condition' => '=',
-                                'value' => 'max_datetime.max_datetime'
-                            ]
+                            ->join('prices p ', [
+                                [
+                                    'field' => 'p.crypto_id',
+                                    'condition' => '=',
+                                    'value' => 'c.crypto_id'
+                                ],
+                                [
+                                    'field' => "CONCAT(p.date, ' ', p.time)",
+                                    'condition' => '=',
+                                    'value' => 'max_datetime.max_datetime'
+                                ]
                             ])
                             ->join('currency cu', [[
                                 'field' => 'p.currency_id',
@@ -187,16 +191,16 @@
                         }
                         if (!empty(Request::get('name'))) {
                             $name = htmlentities(Request::get('name'));
-                            $params['name'] = $name ;
+                            $params['name'] = $name;
                             $sql->where('name', 'LIKE', "%" . $name . "%");
                         }
                         if (!empty(Request::get('priceFrom'))) {
                             $params['priceFrom'] = Request::get('priceFrom');
-                            $sql->where('price', '>=',Request::get('priceFrom'));
+                            $sql->where('price', '>=', Request::get('priceFrom'));
                         }
                         if (!empty(Request::get('priceTo'))) {
                             $params['priceTo'] = Request::get('priceTo');
-                            $sql->where('price', '<=',Request::get('priceTo'));
+                            $sql->where('price', '<=', Request::get('priceTo'));
                         }
                         if (!empty(Request::get('changes_per'))) {
                             $params['changes_per'] = Request::get('changes_per');
@@ -204,7 +208,7 @@
                         if (!empty(Request::get('changeFrom'))) {
                             $params['changeFrom'] = Request::get('changeFrom');
                         }
-                        if (!empty(Request::get('changeTo'))){
+                        if (!empty(Request::get('changeTo'))) {
                             $params['changeTo'] = Request::get('changeTo');
                         }
                         $sql->orderBy("ABS(TIMESTAMPDIFF(SECOND, max_datetime.max_datetime, NOW()))");
@@ -215,7 +219,7 @@
                         $sql->offset($pagination->getFirst())->limit($pagination->getLimit());
                         $sql = $sql->sql();
                         $rows = $mysqli->query($sql);
-                        
+
                         $pagination->setParams($params);
                         echo '<div class="pagination">';
                         echo $pagination->show();
@@ -225,75 +229,73 @@
                         } else {
                             $num = $pagination->getFirst();
                             foreach ($rows as $row) {
-                                $change=0;
+                                $change = 0;
                                 $sign = '';
                                 $class = null;
                                 $visibility = '';
                                 if (Request::get('changes_per') !== null) {
-                                    $timeBefore= Request::get('changes_per');  
-                                }
-                                else{
+                                    $timeBefore = Request::get('changes_per');
+                                } else {
                                     $timeBefore = '1 hour';
                                 }
                                 $crypto_id = $mysqli->find('cryptocurrencies')->select('cryptocurrencies.crypto_id')
-                                ->where('ticker','=',$row['ticker']);
+                                    ->where('ticker', '=', $row['ticker']);
                                 $crypto_id = $mysqli->query($crypto_id->sql())[0]['crypto_id'];
-                                $sql=$mysqli->find('prices')->select('price')->where('prices.crypto_id','=',$crypto_id)
-                                ->orderBy("ABS(TIMESTAMPDIFF(SECOND, 
+                                $sql = $mysqli->find('prices')->select('price')->where('prices.crypto_id', '=', $crypto_id)
+                                    ->orderBy("ABS(TIMESTAMPDIFF(SECOND, 
                                 CONCAT(prices.date, ' ',prices.time), 
                                 DATE_SUB(NOW(), INTERVAL $timeBefore)))")->limit(12);
-                
-                                $arrCh=[];
-                                $i=0;
-                                $price = $row['price'];
-                                $sumCh=0;
-                                while ($i<12){
-                                    $priceBefore = $mysqli->query($sql->sql())[$i]['price'];
-                                    
-                                    if($priceBefore<0.001){
-                                        if($price<0.001){
-                                            $priceBefore= $price=1;
-                                        }
-                                        else{
 
-                                            $priceBefore= 0.001;
+                                $arrCh = [];
+                                $i = 0;
+                                $price = $row['price'];
+                                $sumCh = 0;
+                                while ($i < 12) {
+                                    $priceBefore = $mysqli->query($sql->sql())[$i]['price'];
+
+                                    if ($priceBefore < 0.001) {
+                                        if ($price < 0.001) {
+                                            $priceBefore = $price = 1;
+                                        } else {
+
+                                            $priceBefore = 0.001;
                                         }
                                     }
-                                    $change=(100*$price)/$priceBefore-100 ;
-                                    
+                                    $change = (100 * $price) / $priceBefore - 100;
+
                                     $arrCh[] = $change;
-                                    $sumCh+=$change;
+                                    $sumCh += $change;
                                     $price = $priceBefore;
                                     $i++;
                                 }
-                            
-                                if ($arrCh[0]>100) {
+
+                                if ($arrCh[0] > 100) {
                                     $sign = '>';
-                                    $arrCh[0] =100;
+                                    $arrCh[0] = 100;
                                 }
-                                if ($arrCh[0]<-100) {
-                                    $sign= '<';
-                                    $arrCh[0] =-100;
+                                if ($arrCh[0] < -100) {
+                                    $sign = '<';
+                                    $arrCh[0] = -100;
                                 }
                                 if (
-                                    ($arrCh[0]<$pagination->getArrParams()['changeFrom'] || 
-                                    $arrCh[0]>$pagination->getArrParams()['changeTo']) 
-                                        &&
-                                        (!empty($pagination->getArrParams()['changeFrom'])|| 
-                                        !empty($pagination->getArrParams()['changeTo']) )
-                                        ){
+                                    ($arrCh[0] < $pagination->getArrParams()['changeFrom'] ||
+                                        $arrCh[0] > $pagination->getArrParams()['changeTo'])
+                                    &&
+                                    (!empty($pagination->getArrParams()['changeFrom']) ||
+                                        !empty($pagination->getArrParams()['changeTo']))
+                                ) {
                                     $visibility = 'none';
                                     $num--;
                                 }
-                                if ($arrCh[0]>0) {
+                                if ($arrCh[0] > 0) {
                                     $class = 'appreciation';
                                 }
-                                if ($arrCh[0]<0) {
+                                if ($arrCh[0] < 0) {
                                     $class = 'depreciation';
                                 }
-                                $change = number_format(($arrCh[0]) ,2);
-                                
-                                echo '<tr '.(($visibility)?('style="display: '. $visibility.';"'): $visibility).'>';
+                                $change = number_format(($arrCh[0]), 2);
+
+                                echo '<tr ' . (($visibility) ? ('style="display: ' . $visibility . ';"') : $visibility) . '>';
                                 echo "<td><div>" . ($num + 1) . "</div></td>";
                                 echo "<td class='table-assets'>";
                                 echo "<div>";
@@ -306,22 +308,22 @@
                                 echo "</td>";
                                 echo "<td><div><span><span>" . $row['currency'] . "</span><span>" . $row['price'] . '</span></span></div></td>';
                                 echo "<td>";
-                                echo '<div><span class='.$class.'>'.$sign.$change.'%</span></div>';
+                                echo '<div><span class=' . $class . '>' . $sign . $change . '%</span></div>';
                                 echo "</td>";
                                 echo "<td class='chart'><div>";
                                 $diagr = new Diagram();
                                 $diagr->setWidth(180);
                                 $diagr->setHeight(70);
                                 $diagr->setMin(0);
-                                $diagr->setBgColor(30,33,50);
-                                $diagr->setAxisColor(255,255,255);
+                                $diagr->setBgColor(30, 33, 50);
+                                $diagr->setAxisColor(255, 255, 255);
                                 $diagr->setColors([
                                     [255, 0, 0],
                                     [0, 255, 0],
                                 ]);
-                                if (! $sumCh){
+                                if (!$sumCh) {
 
-                                    $arrCh = [0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,10];
+                                    $arrCh = [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 10];
                                 }
                                 $arrCh = array_reverse($arrCh);
                                 $diagr->setData($arrCh);
@@ -351,7 +353,7 @@
                 ?>
             </div>
             <?php
-            include("../components/footer.php");
+            include("../home/footer.php");
             ?>
         </div>
     </div>
