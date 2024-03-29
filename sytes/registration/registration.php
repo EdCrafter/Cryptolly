@@ -49,7 +49,7 @@
                     <button class="active">Client</button>
                     <button>Admin</button>
                 </div>
-                <form id="form">
+                <form id="form" method="POST">
                     <h2>Registration Form</h2>
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>

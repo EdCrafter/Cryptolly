@@ -70,83 +70,51 @@ function validateEmail(field) {
     return "";
 }
 
+function failAlert(fail, field) {
+    if (fail != "") {
+        field.css("border", "1px solid #ff0000");
+        field.next().not("p").before(
+            $("<p>").css("color", "red").text(fail)
+        );
+    }
+}
+
 
 $(document).ready(function () {
     $("#form").submit(function (e) {
         e.preventDefault();
-        console.log("submit");
         var submitForm = true;
-        var fail = "";
-        fail += validateName($("#name").val());
-        if (fail != "") {
-            submitForm = false;
-            $("input[name='name']").css("border", "1px solid red");
-            $("input[name='name']").next().not("p").before(
-                $("<p>").css("color", "red").text(fail)
-            );
-        }
-        fail = "";
-        fail += validateSurname($("#surname").val());
-        if (fail != "") {
-            submitForm = false;
-            $("input[name='surname']").css("border", "1px solid red");
-            $("input[name='surname']").next().not("p").before(
-                $("<p>").css("color", "red").text(fail)
-            );
-        }
-        fail = "";
-        fail += validateUsername($("#username").val());
-        if (fail != "") {
-            submitForm = false;
-            $("input[name='username']").
-                css("border", "1px solid red");
-            $("input[name='username']").next().not("p").before(
-                $("<p>").css("color", "red").text(fail)
-            );
-        }
-        fail = "";
-        fail += validatePassword($("#password").val(), $("#password2").val());
-        if (fail != "") {
-            submitForm = false;
-            $("input[name='password']").css("border", "1px solid red");
-            $("input[name='password2']").css("border", "1px solid red");
-            $("input[name='password']").next().not("p").before(
-                $("<p>").css("color", "red").text(fail)
-            );
-            $("input[name='password2']").next().not("p").before(
-                $("<p>").css("color", "red").text(fail)
-            );
-        }
-        fail = "";
+        failAlert(validateName($("#name").val()), $("input[name='name']"));
+        failAlert(validateSurname($("#surname").val()), $("input[name='surname']"));
+        failAlert(validateUsername($("#username").val()), $("input[name='username']"));
+        failAlert(validatePassword($("#password").val(), $("#password2").val()), $("input[name='password1']"));
+        failAlert(validatePassword($("#password").val(), $("#password2").val()), $("input[name='password2']"));
         if ($("#adminPass").val() !== undefined) {
-            fail += validateAdmin($("#adminPass").val());
-            if (fail != "") {
-                submitForm = false;
-                $("input[name='adminPass']").css("border", "1px solid red");
-                $("input[name='adminPass']").next().not("p").before(
-                    $("<p>").css("color", "red").text(fail)
-                );
-            }
-            fail = "";
+            failAlert(validateAdmin($("#adminPass").val()), $("input[name='adminPass']"));
         }
-        fail += validateAge($("#age").val());
-        if (fail != "") {
-            submitForm = false;
-            $("input[name='age']").css("border", "1px solid red");
-            $("input[name='age']").next().not("p").before(
-                $("<p>").css("color", "red").text(fail)
-            );
+        failAlert(validateAge($("#age").val()), $("input[name='age']"));
+        failAlert(validateEmail($("#email").val()), $("input[name='email']"));
+       // submitForm = false;
+        if(submitForm){
+            $.ajax({
+                type: "POST",
+                url: "validate.php",
+                data: $("#form").serialize(),
+                success: function (data) {
+                    var $dataP = JSON.parse(data);
+                    console.log("success");
+                    console.log($dataP);
+                    console.log($dataP["name"]);
+                },
+                error: function (data) {
+                    console.log("error");
+                    console.log(data);
+                }
+            }).always(function (data) {
+                console.log("always");
+                console.log(data["name"]);
+            });
         }
-        fail = "";
-        fail += validateEmail($("#email").val());
-        if (fail != "") {
-            submitForm = false;
-            $("input[name='email']").css("border", "1px solid red");
-            $("input[name='email']").next().not("p").before(
-                $("<p>").css("color", "red").text(fail)
-            );
-        }
-        //submitForm = true;
         
     });
 

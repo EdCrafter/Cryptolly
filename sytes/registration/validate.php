@@ -1,6 +1,6 @@
 <?php
-
 $forename = $surname = $username = $password = $password2 = $age = $email = "";
+parse_str($formData, $formArray);
 if (isset($_POST['name'])) $forename = fix_string($_POST['name']);
 if (isset($_POST['surname'])) $surname = fix_string($_POST['surname']);
 if (isset($_POST['username'])) $username = fix_string($_POST['username']);
@@ -11,23 +11,22 @@ if (isset($_POST['password']) && isset($_POST['password2'])) {
 if (isset($_POST['adminPass'])) $admin = fix_string($_POST['adminPass']);
 if (isset($_POST['age'])) $age = fix_string($_POST['age']);
 if (isset($_POST['email'])) $email = fix_string($_POST['email']);
-$fail = validate_forename($forename);
-$fail .= validate_surname($surname);
-$fail .= validate_username($username);
-$fail .= validate_password($password,$password2);
-$fail .= validate_admin($admin);
-$fail .= validate_age($age);
-$fail .= validate_email($email);
+$fail['name'] = validate_forename($forename);
+$fail['surname'] = validate_surname($surname);
+$fail['username'] = validate_username($username);
+$fail['password'] = validate_password($password,$password2);
+$fail['admin'] = validate_admin($admin);
+$fail['age'] = validate_age($age);
+$fail['email'] = validate_email($email);
 
 if ($fail == "") {
     header("Location: adduser.php");
     exit;
 } else {
-    echo "<pre>".$fail."</pre>";
+    echo json_encode($fail);
 }
 
 function fix_string($string) {
-    echo "string : ".$string;
     $string = stripslashes($string);
     return htmlentities($string);
 }
