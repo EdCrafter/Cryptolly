@@ -22,6 +22,12 @@ class DataProcessor{
             return htmlspecialChars_decode($input, ENT_QUOTES, 'UTF-8');
         }
     }
+    public static function sanitizeString($input) {
+        $input = strip_tags($input);
+        $input = htmlentities($input, ENT_QUOTES, 'UTF-8');
+        $input = stripslashes($input);
+        return $input;
+    }
 }
 
 ?>

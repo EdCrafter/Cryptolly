@@ -1,47 +1,62 @@
 <?php
-$forename = $surname = $username = $password = $password2 = $age = $email = "";
-parse_str($formData, $formArray);
-if (isset($_POST['name'])) $forename = fix_string($_POST['name']);
-if (isset($_POST['surname'])) $surname = fix_string($_POST['surname']);
-if (isset($_POST['username'])) $username = fix_string($_POST['username']);
+
+include_once("../../include/dataProcessor.php");
+$forename = $surname = $username = $password = $password2 = $age = $email= $admin = "";
+if (isset($_POST['name'])) $forename = DataProcessor::sanitizeString($_POST['name']);
+if (isset($_POST['surname'])) $surname = DataProcessor::sanitizeString($_POST['surname']);
+if (isset($_POST['username'])) $username = DataProcessor::sanitizeString($_POST['username']);
 if (isset($_POST['password']) && isset($_POST['password2'])) {
-    $password = fix_string($_POST['password']);
-    $password2 = fix_string($_POST['password2']);
+    $password = DataProcessor::sanitizeString($_POST['password']);
+    $password2 = DataProcessor::sanitizeString($_POST['password2']);
 }
-if (isset($_POST['adminPass'])) $admin = fix_string($_POST['adminPass']);
-if (isset($_POST['age'])) $age = fix_string($_POST['age']);
-if (isset($_POST['email'])) $email = fix_string($_POST['email']);
+if (isset($_POST['adminPass'])){
+     $admin = DataProcessor::sanitizeString($_POST['adminPass']);
+     $fail['admin'] = validate_admin($admin);
+}
+if (isset($_POST['age'])) $age = DataProcessor::sanitizeString($_POST['age']);
+if (isset($_POST['email'])) $email = DataProcessor::sanitizeString($_POST['email']);
 $fail['name'] = validate_forename($forename);
 $fail['surname'] = validate_surname($surname);
 $fail['username'] = validate_username($username);
 $fail['password'] = validate_password($password,$password2);
-$fail['admin'] = validate_admin($admin);
+
 $fail['age'] = validate_age($age);
 $fail['email'] = validate_email($email);
 
-if ($fail == "") {
-    header("Location: adduser.php");
-    exit;
+if (empty(array_filter($fail))) {
+    include_once("../../include/db.php");
+    include_once("../../include/createDB.php");
+    $hash = password_hash($password, PASSWORD_DEFAULT);
+    $adminBool = (bool)$admin ? 1 : 0;
+    $sql = $mysqli ->find("members")
+    ->insert(['name','surname','username','password','email','admin','age'],
+    [$forename,$surname,$username, $hash,$email,$adminBool,(int)$age]);
+    $mysqli->executeQuery($sql->sql());
+    $fail['success'] = "true";
+    echo json_encode($fail);
 } else {
     echo json_encode($fail);
-}
-
-function fix_string($string) {
-    $string = stripslashes($string);
-    return htmlentities($string);
 }
 
 function validate_forename($field) {
     if ($field == "" ) return "No Forename was entered.\n";
     else if (strlen($field) < 2) return "Forenames must be at least 2 characters.\n";
-    else if (preg_match("/[^a-zA-Z]/", $field)) return "Only letters in forenames.\n";
+    else if (!
+    (preg_match("/[^a-zA-Z]/", $field) 
+    xor 
+    preg_match("/[^\x{0400}-\x{04FF}]/u", $field))
+    ) return "Only en or ua letters in forenames.\n";
     return "";
 }
 
 function validate_surname($field) {
     if ($field == "") return "No Surname was entered.\n";
     else if (strlen($field) < 2) return "Surnames must be at least 2 characters.\n";
-    else if (preg_match("/[^a-zA-Z]/", $field)) return "Only letters in surnames.\n";
+    else if (!
+    (preg_match("/[^a-zA-Z]/", $field) 
+    xor 
+    preg_match("/[^\x{0400}-\x{04FF}]/u", $field))
+    ) return "Only en or ua letters in surnames.\n";
     return "";
 }
 

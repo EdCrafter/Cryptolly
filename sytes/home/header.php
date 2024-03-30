@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <style>
     @import url(https://fonts.googleapis.com/css?family=Lunasima:regular,700);
 </style>
@@ -27,15 +30,41 @@
                 <li><a>Company</a></li>
                 <li><a>Blog</a></li>
             </ul>
-            <div class="menu-buttons">
-                <button class="button-container--light">
-                    Sign in
-                </button>
-                <button class="button-container" onclick="window.location.href = 'sytes/registration/registration.php';">
-                    Get Started
-                </button>
-            </div>
-
+            <?php
+                if (isset($_SESSION['user'])) {
+                    $user = $_SESSION['user'];
+                    $loggedin = true;
+                }
+                else {
+                    $loggedin = false;
+                }
+                if ($loggedin) {
+                    echo <<<_LOGGEDIN
+                    <div class="menu-buttons">
+                        <button class="button-container--light">
+                            Log out
+                        </button>
+                        <button class="button-container" onclick="window.location.href = 'sytes/registration/registration.php';">
+                            Profile
+                        </button>
+                    </div>
+_LOGGEDIN;
+                }
+                else {
+                    echo <<<_GUEST
+                    <div class="menu-buttons">
+                        <button class="button-container--light">
+                            Sign in
+                        </button>
+                        <button class="button-container" onclick="window.location.href = 'sytes/registration/registration.php';">
+                            Get Started
+                        </button>
+                    </div>
+_GUEST;
+                }
+                
+                
+            ?>
         </div>
     </div>
 </div>

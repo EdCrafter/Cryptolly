@@ -3,7 +3,7 @@ function validateName(field) {
     if (field == "") return "No Name was entered.\n";
     else if (field.length < 3)
         return "Name must be at least 3 characters.\n";
-    else if (!(/[^a-zA-Z]/.test(field) ^ /[^а-яА-Я]/.test(field)))
+    else if (!(/[^a-zA-Z]/.test(field) ^ /[^\u0400-\u04FF]/.test(field)))
         return "Only a-z, A-Z or а-я , А-Я allowed in names.\n";
     return "";
 }
@@ -12,7 +12,7 @@ function validateSurname(field) {
     if (field == "") return "No Surname was entered.\n";
     else if (field.length < 3)
         return "Surname must be at least 3 characters.\n";
-    else if (!(/[^a-zA-Z]/.test(field) ^ /[^а-яА-Я]/.test(field)))
+    else if (!(/[^a-zA-Z]/.test(field) ^ /[^\u0400-\u04FF]/.test(field)))
         return "Only a-z, A-Z or а-я , А-Я allowed in surnames.\n";
     return "";
 }
@@ -83,7 +83,7 @@ function failAlert(fail, field) {
 $(document).ready(function () {
     $("#form").submit(function (e) {
         e.preventDefault();
-        var submitForm = true;
+        
         failAlert(validateName($("#name").val()), $("input[name='name']"));
         failAlert(validateSurname($("#surname").val()), $("input[name='surname']"));
         failAlert(validateUsername($("#username").val()), $("input[name='username']"));
@@ -94,25 +94,38 @@ $(document).ready(function () {
         }
         failAlert(validateAge($("#age").val()), $("input[name='age']"));
         failAlert(validateEmail($("#email").val()), $("input[name='email']"));
-       // submitForm = false;
-        if(submitForm){
+        if(!$("#form p").length){
             $.ajax({
                 type: "POST",
                 url: "validate.php",
                 data: $("#form").serialize(),
                 success: function (data) {
-                    var $dataP = JSON.parse(data);
-                    console.log("success");
-                    console.log($dataP);
-                    console.log($dataP["name"]);
+                    console.log(data);
+                    var dataP = JSON.parse(data);
+                    if(dataP["success"] == "true"){
+                        $("#form").attr({'action' : '../authorization/authorization.php'}).off("submit").submit();
+                    }
+                    else{
+                        console.log(dataP);
+                        failAlert(dataP["name"], $("input[name='name']"));
+                        failAlert(dataP["surname"], $("input[name='surname']"));
+                        failAlert(dataP["username"], $("input[name='username']"));
+                        failAlert(dataP["password"], $("input[name='password1']"));
+                        failAlert(dataP["password"], $("input[name='password2']"));
+                        if ($("#adminPass").val() !== undefined) {
+                            failAlert(dataP["adminPass"], $("input[name='adminPass']"));
+                        }
+                        failAlert(dataP["age"], $("input[name='age']"));
+                        failAlert(dataP["email"], $("input[name='email']"));
+                    }
+
+
+        
                 },
                 error: function (data) {
                     console.log("error");
                     console.log(data);
                 }
-            }).always(function (data) {
-                console.log("always");
-                console.log(data["name"]);
             });
         }
         
@@ -146,6 +159,48 @@ $(document).ready(function () {
 
     $(".registration form input").focusin(function () {
         $(this).css("border", "1px solid #3b5998");
-        $(this).next("p").remove();
+        $(this).next("p , span").remove();
+    });
+
+    $("#username").blur(function () {
+        checkUsername(this);
+    });
+    $("#email").blur(function () {
+        checkEmail(this);
     });
 });
+
+
+function checkUsername(user) {
+    if (user.value == "") {
+        $("#used").html("&nbsp;");
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "check.php",
+        data: "user=" + user.value,
+        caches: false,
+        success: function (data) {
+            $("#username").next().not("span").before(
+            $("<span>").html(data));
+        }
+    });
+}
+
+function checkEmail(email) {
+    if (email.value == "") {
+        $("#used").html("&nbsp;");
+        return;
+    }
+    $.ajax({
+        type: "POST",
+        url: "check.php",
+        data: "email=" + email.value,
+        caches: false,
+        success: function (data) {
+            $("#email").next().not("span").before(
+            $("<span>").html(data));
+        }
+    });
+}

@@ -30,14 +30,7 @@
             $pagination = new Pagination();
             $pagination->limits = [3, 10, 50];
             $pagination->setLimit(Request::get('limit', 3));
-            $mysqli = new DB(
-                [
-                    "host" => "localhost",
-                    "user" => "root",
-                    "password" => "IPZ221Verdev",
-                    "db" => "cryptolly",
-                ]
-            );
+            include_once("../../include/createDB.php");
             ?>
 
             <h1 id="prices">

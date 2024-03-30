@@ -61,14 +61,7 @@ include_once("include/image.php");
             </thead>
             <tbody class="assets-content">
                 <?php
-                $mysqli = new DB(
-                    [
-                        "host" => "localhost",
-                        "user" => "root",
-                        "password" => "IPZ221Verdev",
-                        "db" => "cryptolly",
-                    ]
-                );
+                include_once("include/createDB.php");
                 $sql = $mysqli->find("cryptocurrencies c")->select([
                     'c.img_svg as img', 'c.ticker',
                     'c.name', 'cu.currency_name as currency', 'p.price'

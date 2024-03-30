@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prices</title>
+    <title>Registration</title>
     <link rel="stylesheet" href="../../css/index.css">
     <link rel="stylesheet" href="../../components/css/registration.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -14,11 +14,7 @@
 <body>
 
     <?php
-    include_once("../../include/db.php");
-    include_once("../../include/pagination.php");
-    include_once("../../include/html.php");
-    include_once("../../include/request.php");
-    include_once("../../include/image.php");
+    include_once("../../include/session.php");
     ?>
     <div class="main_container">
         <div class="container">
@@ -28,17 +24,9 @@
                 ?>
             </header>
             <?php
-            $pagination = new Pagination();
-            $pagination->limits = [3, 10, 50];
-            $pagination->setLimit(Request::get('limit', 3));
-            $mysqli = new DB(
-                [
-                    "host" => "localhost",
-                    "user" => "root",
-                    "password" => "IPZ221Verdev",
-                    "db" => "cryptolly",
-                ]
-            );
+            if (isset($_SESSION["user"])) {
+                destroySession();
+            }
             ?>
 
             <h1 id="prices">
@@ -49,7 +37,7 @@
                     <button class="active">Client</button>
                     <button>Admin</button>
                 </div>
-                <form id="form" method="POST">
+                <form id="form" method="POST" action="validate.php">
                     <h2>Registration Form</h2>
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>
@@ -58,7 +46,7 @@
                     <input type="text" id="surname" name="surname" required>
                     <br>
                     <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required>
+                    <input type="text" id="username" name="username" required >
                     <br>
                     <label for="age">Age:</label>
                     <input type="number" id="age" name="age" required>

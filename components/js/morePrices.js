@@ -26,3 +26,5 @@ function redirectToElement() {
         document.getElementById('prices').scrollIntoView({ behavior: 'smooth' });
     }
 }
+
+
