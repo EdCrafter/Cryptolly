@@ -17,6 +17,7 @@
     include_once("../../include/html.php");
     include_once("../../include/request.php");
     include_once("../../include/image.php");
+    include_once("../../include/dataProcessor.php");
     ?>
     <div class="main_container">
         <div class="container">
@@ -183,32 +184,32 @@
                             $sql->where('p.crypto_id', '=', "$ticker");
                         }
                         if (!empty(Request::get('name'))) {
-                            $name = htmlentities(Request::get('name'));
+                            $name =DataProcessor::sanitizeString(Request::get('name'));
                             $params['name'] = $name;
                             $sql->where('name', 'LIKE', "%" . $name . "%");
                         }
                         if (!empty(Request::get('priceFrom'))) {
-                            $params['priceFrom'] = Request::get('priceFrom');
-                            $sql->where('price', '>=', Request::get('priceFrom'));
+                            $params['priceFrom'] = DataProcessor::sanitizeString(Request::get('priceFrom'));
+                            $sql->where('price', '>=', $params['priceFrom']);
                         }
                         if (!empty(Request::get('priceTo'))) {
-                            $params['priceTo'] = Request::get('priceTo');
-                            $sql->where('price', '<=', Request::get('priceTo'));
+                            $params['priceTo'] = DataProcessor::sanitizeString(Request::get('priceTo'));
+                            $sql->where('price', '<=', $params['priceTo']);
                         }
                         if (!empty(Request::get('changes_per'))) {
-                            $params['changes_per'] = Request::get('changes_per');
+                            $params['changes_per'] = DataProcessor::sanitizeString(Request::get('changes_per'));
                         }
                         if (!empty(Request::get('changeFrom'))) {
-                            $params['changeFrom'] = Request::get('changeFrom');
+                            $params['changeFrom'] = DataProcessor::sanitizeString(Request::get('changeFrom'));
                         }
                         if (!empty(Request::get('changeTo'))) {
-                            $params['changeTo'] = Request::get('changeTo');
+                            $params['changeTo'] = DataProcessor::sanitizeString(Request::get('changeTo'));
                         }
                         $sql->orderBy("ABS(TIMESTAMPDIFF(SECOND, max_datetime.max_datetime, NOW()))");
                         $rows = $mysqli->query($sql->sql());
                         $count = count($rows);
                         $pagination->setRowsCount($count);
-                        $pagination->setPage(Request::get('page', 1));
+                        $pagination->setPage(DataProcessor::sanitizeString(Request::get('page', 1)));
                         $sql->offset($pagination->getFirst())->limit($pagination->getLimit());
                         $sql = $sql->sql();
                         $rows = $mysqli->query($sql);
@@ -227,7 +228,7 @@
                                 $class = null;
                                 $visibility = '';
                                 if (Request::get('changes_per') !== null) {
-                                    $timeBefore = Request::get('changes_per');
+                                    $timeBefore = DataProcessor::sanitizeString(Request::get('changes_per'));
                                 } else {
                                     $timeBefore = '1 hour';
                                 }

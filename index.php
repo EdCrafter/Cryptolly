@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Inter:,regular,medium" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Sora:bold" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:regular,semibold,medium" rel="stylesheet" />
-    <script src="components/js/home.js"></script>
+    <script src="./components/js/home.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 

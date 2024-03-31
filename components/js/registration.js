@@ -103,7 +103,7 @@ $(document).ready(function () {
                     console.log(data);
                     var dataP = JSON.parse(data);
                     if(dataP["success"] == "true"){
-                        $("#form").attr({'action' : '../authorization/authorization.php'}).off("submit").submit();
+                        $(".registration").html("<h1>Registration Successful</h1><h2 style=\"font-size:x-large\">Thank you for registering with us. You can now <a href='../authorization/authorization.php'>login</a> to your account.</h2>");
                     }
                     else{
                         console.log(dataP);

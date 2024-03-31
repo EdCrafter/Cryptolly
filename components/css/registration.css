@@ -58,3 +58,16 @@
 .registration__top button:hover {
   background-image: linear-gradient(180deg, #00adff 0%, #0062cc 100%);
 }
+
+.taken {
+  color: red;
+}
+
+.available {
+  color: #6fff33;
+}
+
+.registration h2 {
+  margin: 2em 0 0 0;
+  font-size: xx-large;
+}
