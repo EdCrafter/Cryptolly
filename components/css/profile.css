@@ -1,0 +1,35 @@
+.about{
+    max-width: 630px;
+    height: fit-content;
+    max-height: 300px;
+    word-wrap: break-word; 
+    white-space: pre-line;   
+    overflow: auto; 
+}
+
+textarea {
+    font-size: large;
+}
+
+form h3{
+    background-color: #037171;
+    padding: 0.5em;
+    border-color: #0177a9;
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: solid;
+    width: 100%;
+    text-align: center;
+}
+
+input[type="file"]{
+    background-color: #006494;
+    color: white;
+    padding: 0.5em;
+    border-color: #0177a9;
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: solid;
+    width: 100%;
+    margin-bottom: 2em;
+}

@@ -7,7 +7,7 @@
     <title>Prices</title>
     <link rel="stylesheet" href="../../css/index.css">
     <link rel="stylesheet" href="../../components/css/morePrices.css">
-    <script src="../../components/js/morePrices.js"></script>
+    
 </head>
 
 <body>
@@ -21,10 +21,19 @@
     ?>
     <div class="main_container">
         <div class="container">
+            
             <header>
                 <?php
                 include("../home/header.php");
+                if (!isset($_SESSION['username'])) {
+                    die("<h1>You need to be logged in to view this page. </h1>
+                    <button class='button-container' onclick=\"window.location.href = 'login.php';\"
+                    style=\" font-size: x-large; border-radius: 0; margin-top: 30px;\">
+                    Get Started
+                </button> ");
+                } 
                 ?>
+                <script src="../../components/js/morePrices.js"></script>
             </header>
 
             <?php
