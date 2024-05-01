@@ -6,7 +6,7 @@ include_once("../../include/session.php");
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Logout</title>
+        <title>Profile</title>
         <link rel="stylesheet" href="../../css/index.css">
         <link rel="stylesheet" href="../../components/css/profile.css">
 
@@ -74,7 +74,7 @@ include_once("../../include/session.php");
 
                     if (isset($_FILES['image']['name']))
                     {
-                        $saveto = "$user.jpg";
+                        $saveto = "img/$user.jpg";
                         move_uploaded_file($_FILES['image']['tmp_name'], $saveto);
                         $typeok = TRUE;
 
@@ -131,6 +131,9 @@ include_once("../../include/session.php");
                     <input type='file' name='image' size='14'>
                     <input type='submit' value='Save Profile'>
                     </form>
+                    <?php
+            include("../home/footer.php");
+            ?>
             </div>
         </div>
     </body>

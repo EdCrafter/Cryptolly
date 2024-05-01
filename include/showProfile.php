@@ -3,8 +3,8 @@
     function showProfile($user)
     {
       global $mysqli;
-        if (file_exists("$user.jpg")){
-        echo "<img src='$user.jpg' style='float:left;'>";
+        if (file_exists("img/$user.jpg")){
+        echo "<img src='img/$user.jpg' style='float:left;'>";
 
         $result = $mysqli->find("profiles")->select(['*'])
             ->where('user','=', $user)

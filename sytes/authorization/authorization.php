@@ -28,22 +28,31 @@
         $rows = $mysqli->query("Select * from members where username = '$username'");
     
         if ($rows) {
-            var_dump($rows[0]);
+            //var_dump($rows[0]);
             $row = $rows[0];
             if (password_verify($password, $row['password'])) {
                 echo "<h1>You are logged in !!!</h1>";
                 $_SESSION['username'] = $username;
                 $_SESSION['password'] = $password;
-                echo $_SESSION['username']."<br>";
-                echo $_SESSION['password']."<br>";
-                echo "<a href='logout.php' class='btn'>Profile</a>";
+                //echo $_SESSION['username']."<br>";
+                //echo $_SESSION['password']."<br>";
+                echo "<a href='profile.php' class='btn'>Profile</a>";
             }
+            else {
+                echo "<h1>Invalid username or password</h1>";
+                echo "<a href='authorization.php' class='btn'>Try again</a>";
+            }
+        }
+        else {
+            echo "<h1>Invalid username or password</h1>";
+            echo "<a href='authorization.php' class='btn'>Try again</a>";
+        }
 
     }
 
 
 
-    } else {
+    else {
         echo <<<_END
         
         <div class="registration">

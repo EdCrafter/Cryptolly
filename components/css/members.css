@@ -1,0 +1,21 @@
+.member{
+    color: #00ffa1;
+    font-size: x-large;
+    text-decoration: none;
+}
+
+.member:hover{
+    color: #ffa200;
+    font-size: x-large;
+    text-decoration: none;
+}
+
+.member_info{
+    color: cyan;
+    font-size: larger;
+    text-decoration: none;
+}
+
+.member_status{
+    font-size: larger;
+}
