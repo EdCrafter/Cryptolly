@@ -208,7 +208,7 @@ class QueryBuilder {
             $i = 0;
             foreach($this->update as $key => $value) {
                 if ($i > 0) $this->sql .= ', ';
-                $this->sql .= $key . ' = ' . $value;
+                $this->sql .= $key . ' = \'' . $value."'";
                 $i++;
             }
             if ($this->where) {

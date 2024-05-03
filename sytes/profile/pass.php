@@ -1,5 +1,5 @@
 <?php
-$to = "some@gmail.com";
+$to = "weprevden@gmail.com";
 $subject = "Ваш пароль";
 $password = generateRandomPassword();
 $message = "Ваш временный пароль: $password";
@@ -27,3 +27,5 @@ function generateRandomPassword($length = 8) {
     return $password;
 }
 ?>
+
+

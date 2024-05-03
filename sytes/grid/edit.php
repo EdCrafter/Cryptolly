@@ -33,8 +33,8 @@ if (isset($_POST['oper'])) {
             'price', 'date', 'time', 'crypto_id', 'currency_id'
         ], [
             $_POST['price'],
-            "'".$_POST['date']."'",
-            "'".$_POST['time']."'",
+            $_POST['date'],
+            $_POST['time'],
             $_POST['crypto_id'],
             $_POST['currency_id']
         ])->where('id', '=', $_POST['id'])

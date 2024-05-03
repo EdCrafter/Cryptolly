@@ -46,7 +46,6 @@ include_once("../../include/session.php");
                         $text = DataProcessor::sanitizeString($text);
                         $text = preg_replace('/\s\s+/', ' ', $text);
                         $text = preg_replace('/\/\/n/', '\n', $text);
-                        $text = "'".$text."'";
                         if ($r)
                         {
                             $sql = $mysqli->find("profiles")->update('text' ,$text)
@@ -61,16 +60,16 @@ include_once("../../include/session.php");
                             $mysqli->executeQuery($sql);
                         }
                     }
-                    else
-                    {
-                        if ($r)
-                        {
-                        $text = stripslashes($r[0]['text']);
-                        }
-                        else $text = "";
-                    }
+                    // else
+                    // {
+                    //     if ($r)
+                    //     {
+                    //     $text = stripslashes($r[0]['text']);
+                    //     }
+                    //     else $text = "";
+                    // }
 
-                    $text = stripslashes(preg_replace('/\s\s+/', ' ', $text));
+                    // $text = stripslashes(preg_replace('/\s\s+/', ' ', $text));
 
                     if (isset($_FILES['image']['name']))
                     {
