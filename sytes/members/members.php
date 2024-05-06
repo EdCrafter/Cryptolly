@@ -37,13 +37,15 @@ include_once("../../include/session.php");
                 if (isset($_GET['view'])) {
                     $view = DataProcessor::sanitizeString($_GET['view']);
 
-                    if ($view == $user) $name = "Your";
-                    else                $name = "$view's";
-
-                    echo "<h3>$name Profile</h3>";
+                    if ($view == $user) {
+                        echo "<h3>Your Profile</h3>";
+                    }
                     showProfile($view);
                     echo "<a data-role='button' data-transition='slide' class='member'
                         href='messages.php?view=$view&r=$randstr'>View $name messages</a>";
+
+                    include("../home/footer.php");
+
                     die("</div></body></html>");
                 }
 
@@ -60,7 +62,7 @@ include_once("../../include/session.php");
                         $sql = $mysqli->find("friends")->update("status", 'friends')->where('user', '=', $add)
                             ->where('friend', '=', $user)->sql();
                         $mysqli->executeQuery($sql);
-                    } else if (!$r){
+                    } else if (!$r) {
                         $sql = $mysqli->find("friends")->insert(['user', 'friend', 'status'], [$add, $user, 'follower'])
                             ->sql();
                         $mysqli->executeQuery($sql);
@@ -88,8 +90,6 @@ include_once("../../include/session.php");
                             ->where('friend', '=', $user)->sql();
                         $mysqli->executeQuery($sql);
                     }
-
-
                 }
 
                 $result = $mysqli->find("members")->select(['username'])

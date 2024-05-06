@@ -1,5 +1,8 @@
 <?php
 include_once("../createDB.php");
+if (!isset($_POST['user'])){
+    die("No user was entered.");
+}
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -26,6 +29,8 @@ try {
     $mail->addAddress('weprevden@gmail.com');
     $mail->Subject = 'Your Password';
     $pass = generateRandomPassword();
+    $mail->Body    = 'Ваш временный пароль: ' . $pass;
+    $pass = password_hash($pass, PASSWORD_DEFAULT);
     $sql = $mysqli->find("admin")->select(['*'])
             ->where('user','=', $_POST["user"])
             ->sql();
@@ -43,7 +48,6 @@ try {
             ->sql();
         $mysqli->executeQuery($sql);
     }
-    $mail->Body    = 'Ваш временный пароль: ' . $pass;
 
     $mail->send();
     echo "Письмо с паролем отправлено успешно.";
