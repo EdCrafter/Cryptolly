@@ -893,6 +893,8 @@ ul{
   .menu-dropdown ul a{
     padding: 12px 24px;
     cursor: pointer;
+    color: white;
+    text-decoration: none;
   }
   h1 {
     font-family: Sofia Pro;
@@ -900,7 +902,6 @@ ul{
     font-style: normal;
     font-weight: 700;
     line-height: 100%;
-    margin: 15px;
-    margin-top: 80px;
+    margin: 80px 15px 40px 15px;
   }
 }

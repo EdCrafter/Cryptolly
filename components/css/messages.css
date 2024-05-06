@@ -1,0 +1,71 @@
+fieldset {
+  border: none;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+legend {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #333;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+input[type="radio"] {
+  display: none; /* Скрываем стандартный внешний вид радиокнопок */
+}
+
+/* Отображаем пользовательские стили для радиокнопок */
+input[type="radio"] + label {
+  display: inline-block;
+  padding: 5px 10px;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+  background: aliceblue;
+  color: black;
+  border-radius: 10px;
+  font-size: large;
+  padding: 0.5em 1.5em;
+  font-style: italic;
+}
+
+/* Устанавливаем цвета для радиокнопок в состоянии "выбрано" */
+input[type="radio"]:checked + label {
+  background-color: #007bff; /* Пример цвета для выбранной радиокнопки */
+  color: #fff; /* Цвет текста для выбранной радиокнопки */
+  font-weight: 600;
+}
+
+textarea {
+  font-size: large;
+  margin-bottom: 40px;
+}
+
+.refresh {
+  color: lime;
+  text-decoration: none;
+}
+
+.refresh:hover {
+  color: #00ffe5;
+}
+
+.message {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #fff;
+  display: flex;
+  align-items: baseline;
+  flex-direction: row;
+}
+
+.whisper {
+    font-style:italic;
+    color     :#00f2ff;
+  }

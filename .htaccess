@@ -14,7 +14,21 @@ RewriteRule ^.*profile\.php$  /sytes/profile/profile.php [L,R=301]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*members\.php$  /sytes/members/members.php [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*friends\.php$  /sytes/friends/friends.php [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*messages\.php$  /sytes/messages/messages.php [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^.*login\.php$  /sytes/authorization/authorization.php [L,R=301]
+
+RewriteRule ^.*config\.php$  /index.php [L,R=301]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

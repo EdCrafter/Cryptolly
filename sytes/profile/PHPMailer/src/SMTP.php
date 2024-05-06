@@ -719,7 +719,7 @@ class SMTP
      * Issues a data command and sends the msg_data to the server,
      * finalizing the mail transaction. $msg_data is the message
      * that is to be sent with the headers. Each header needs to be
-     * on a single line followed by a <CRLF> with the message headers
+     * on a single line follower by a <CRLF> with the message headers
      * and the message body being separated by an additional <CRLF>.
      * Implements RFC 821: DATA <CRLF>.
      *
@@ -871,7 +871,7 @@ class SMTP
         $lines = explode("\n", $this->helo_rply);
 
         foreach ($lines as $n => $s) {
-            //First 4 chars contain response code followed by - or space
+            //First 4 chars contain response code follower by - or space
             $s = trim(substr($s, 4));
             if (empty($s)) {
                 continue;
@@ -906,7 +906,7 @@ class SMTP
      * Starts a mail transaction from the email address specified in
      * $from. Returns true if successful or false otherwise. If True
      * the mail transaction is started and then one or more recipient
-     * commands may be called followed by a data command.
+     * commands may be called follower by a data command.
      * Implements RFC 821: MAIL <SP> FROM:<reverse-path> <CRLF>.
      *
      * @param string $from Source address of this message
@@ -1090,7 +1090,7 @@ class SMTP
      * Starts a mail transaction from the email address specified in $from.
      * Returns true if successful or false otherwise. If True
      * the mail transaction is started and then one or more recipient
-     * commands may be called followed by a data command. This command
+     * commands may be called follower by a data command. This command
      * will send the message to the users terminal if they are logged
      * in and send them an email.
      * Implements RFC 821: SAML <SP> FROM:<reverse-path> <CRLF>.

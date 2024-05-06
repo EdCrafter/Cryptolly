@@ -9,7 +9,7 @@ include_once("../../include/session.php");
         <title>Profile</title>
         <link rel="stylesheet" href="../../css/index.css">
         <link rel="stylesheet" href="../../components/css/profile.css">
-
+        <link rel="stylesheet" href="../../components/css/members.css">
     </head>
 
     <body>
@@ -19,7 +19,7 @@ include_once("../../include/session.php");
 
                     <?php
                     include("../home/header.php");
-                    if (!isset($_SESSION['username'])) {
+                    if (!$loggedin) {
                         die("<h1>You need to be logged in to view this page. </h1>
                         <button class='button-container' onclick=\"window.location.href = 'login.php';\"
                         style=\" font-size: x-large; border-radius: 0; margin-top: 30px;\">
@@ -118,12 +118,11 @@ include_once("../../include/session.php");
                         imagedestroy($src);
                         }
                     }
-
                     showProfile($user);?>
 
                     
                     <form data-ajax='false' method='post'
-                        action='profile.php?r=$randstr' enctype='multipart/form-data'>
+                        action="<?"profile.php?r=".$randstr?>" enctype='multipart/form-data'>
                     <h3>Enter or edit your details and/or upload an image</h3>
                     <textarea name='text' maxlength="1000" cols="70" rows="10" wrap="hard" autocorrect="on"></textarea><br>
                     <h3>Image:</h3>

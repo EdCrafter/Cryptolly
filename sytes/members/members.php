@@ -61,7 +61,7 @@ include_once("../../include/session.php");
                             ->where('friend', '=', $user)->sql();
                         $mysqli->executeQuery($sql);
                     } else if (!$r){
-                        $sql = $mysqli->find("friends")->insert(['user', 'friend', 'status'], [$add, $user, 'followed'])
+                        $sql = $mysqli->find("friends")->insert(['user', 'friend', 'status'], [$add, $user, 'follower'])
                             ->sql();
                         $mysqli->executeQuery($sql);
                         $sql = $mysqli->find("friends")->insert(['user', 'friend', 'status'], [$user, $add, 'follow'])
@@ -74,7 +74,7 @@ include_once("../../include/session.php");
                         ->where('friend', '=', $remove)->sql();
                     $t = $mysqli->queryOne($result)['status'];
                     if ($t == 'friends') {
-                        $sql = $mysqli->find("friends")->update("status", 'followed')->where('user', '=', $user)
+                        $sql = $mysqli->find("friends")->update("status", 'follower')->where('user', '=', $user)
                             ->where('friend', '=', $remove)->sql();
                         $mysqli->executeQuery($sql);
                         $sql = $mysqli->find("friends")->update("status", 'follow')->where('user', '=', $remove)
@@ -120,16 +120,16 @@ include_once("../../include/session.php");
                             $mysqli->executeQuery($sql);
                             $follow = "friends";
                         } else {
-                            $follow = "followed";
+                            $follow = "follower";
                             echo "<span class='member_status'> &larr; you are following</span>";
                         }
                     } elseif ($t1 == 'friends') echo "<span class='member_status'> &harr; is a mutual friend</span>";
-                    elseif ($t1 == 'followed') {
+                    elseif ($t1 == 'follower') {
                         echo "<span class='member_status'> &rarr; is following you</span>";
                         $follow = "recip";
                     }
 
-                    if (!$t1 || $t1 == 'followed') echo " [<a data-transition='slide' class='member_info'
+                    if (!$t1 || $t1 == 'follower') echo " [<a data-transition='slide' class='member_info'
                     href='members.php?add=" . $row['username'] . "&r=$randstr'>$follow</a>]";
                     else      echo " [<a data-transition='slide' class='member_info'
                     href='members.php?remove=" . $row['username'] . "&r=$randstr'>drop</a>]";

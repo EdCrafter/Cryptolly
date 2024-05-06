@@ -28,7 +28,7 @@ session_start();
                 <li><a>Pricing</a></li>
                 <li><a>Wallet</a></li>
                 <li><a>Company</a></li>
-                <li><a>Blog</a></li>
+                <li><a href="members.php">Blog</a></li>
             </ul>
             <?php
                 if (isset($_SESSION['username'])) {
@@ -46,6 +46,9 @@ session_start();
                         </button>
                         <button class="button-container" onclick="window.location.href = 'profile.php';">
                             Profile
+                        </button>
+                        <button class="button-container" onclick="window.location.href = 'friends.php';">
+                            Friends
                         </button>
                     </div>
 _LOGGEDIN;
