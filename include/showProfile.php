@@ -14,6 +14,12 @@
         echo "<a class='member' href='members.php?view=$user&r=$randstr'>$user</a>";
         foreach ($r as $row)
         {   
+            if ($row['admin']==1)
+            {
+                echo "<div class='button-container'>
+                <button class='button' onclick=\"window.location.href = 'members.php?view=$user&r=$randstr';\">Admin page</button>
+                </div>";
+            }
         echo ("<div class='about'>".$row['text']."</div><br style='clear:left;'><br>");
         }
     }
