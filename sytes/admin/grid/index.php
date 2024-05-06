@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="css/jquery-ui-1.9.2.custom.min.css">
+    <link rel="stylesheet" href="css/jquery-ui-1.9.2.custom.css">
     <link rel="stylesheet" href="css/ui.jqgrid.css">
-    <script src="js/jquery-1.7.2.min.js"></script>
-    <script src="js/jquery-ui-1.9.2.custom.min.js"></script>
-    <script src="js/jqGrid/i18n/grid.locale-ua.js"></script>
-    <script src="js/jqGrid/jquery.jqGrid.min.js"></script>
+    <script src="../../../js/jquery-1.7.2.min.js"></script>
+    <script src="../../../js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script src="../../../js/jqGrid/i18n/grid.locale-ua.js"></script>
+    <script src="../../../js/jqGrid/jquery.jqGrid.min.js"></script>
     <script>
         $(document).ready(function() {
             $("#grid").jqGrid({
-                url: 'include/price.php',
+                url: 'price.php',
                 datatype: 'json',
                 editurl: "edit.php",
                 mtype: 'POST',
@@ -63,7 +63,7 @@
                         editable: true,
                         edittype: 'select',
                         editoptions: {
-                            dataUrl: 'include/cryptocurrencies.php',
+                            dataUrl: 'cryptocurrencies.php',
                             buildSelect: function(data) {
                                 var response = jQuery.parseJSON(data);
                                 var s = '<select>';
@@ -84,7 +84,7 @@
                         editable: true,
                         edittype: 'select',
                         editoptions: {
-                            dataUrl: 'include/currencies.php',
+                            dataUrl: 'icurrencies.php',
                             buildSelect: function(data) {
                                 var response = jQuery.parseJSON(data);
                                 var s = '<select>';

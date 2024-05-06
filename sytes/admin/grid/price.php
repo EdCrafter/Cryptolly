@@ -1,7 +1,7 @@
 <?php
-include_once 'db.php';
-include_once 'pagination.php';
-include_once 'request.php';
+include_once '../../../include/db.php';
+include_once '../../../include/pagination.php';
+include_once '../../../include/request.php';
 $db = new DB([
     'host' => 'localhost',
     'user' => 'maxim',

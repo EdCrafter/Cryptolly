@@ -33,7 +33,10 @@ include_once("../../include/session.php");
                     include_once("../../include/showProfile.php");
                     include_once("../../include/dataProcessor.php");
                     echo "<h1>Admin page</h1><br>";
+                    echo "Prices of cryptocurrencies<br>";
+                    echo "<iframe src='grid/index.php' width='100%' height='auto'></iframe>";
                 ?>
+            
                     <?php
             include("../home/footer.php");
             ?>

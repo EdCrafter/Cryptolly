@@ -27,7 +27,7 @@ class Pagination
     }
 
     public function getPage() {
-        return $this->limit;
+        return $this->page;
     }
 
     public function setParams($params) {

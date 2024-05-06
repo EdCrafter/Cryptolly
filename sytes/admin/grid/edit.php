@@ -1,5 +1,5 @@
 <?php
-include('include/db.php');
+include('../../../include/db.php');
 $db = new DB([
     'host' => 'localhost',
     'user' => 'maxim',
