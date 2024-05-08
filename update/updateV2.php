@@ -8,8 +8,17 @@ $mysqli = new DB([
     "password" => "IPZ221Verdev", 
     "db" => "cryptolly",]
 );
+$response['status'] = 'success';
 
 if ($mysqli->isConnect()) {
+    $sql = $mysqli->find("prices")->select(["*"])->where("date","=",date("Y-m-d"))->sql();
+    $r = $mysqli->query($sql);
+    if ($r) {
+        $response['status'] = 'success';
+        $response['message'] = 'Data already updated';
+        echo json_encode($response);
+        exit();
+    }
     $sql = $mysqli ->find("cryptocurrencies")
     ->select(['ticker']) ;
     $cryptocurrencies = $sql->rows() ;
@@ -23,6 +32,7 @@ if ($mysqli->isConnect()) {
             $crypto_id=$crypto_id[0]['crypto_id'];
             $url = "https://min-api.cryptocompare.com/data/price";
             $time = time();
+            
             $params = array(
                 "fsym"=>"$value",
                 "tsyms"=>"USD",
@@ -97,6 +107,13 @@ if ($mysqli->isConnect()) {
             
         }
     }
+    $response['message'] = 'Data updated successfully';
+    echo json_encode($response);
+}
+else{
+    $response['status'] = 'error';
+    $response['message'] = 'Database connection error';
+    echo json_encode($response);
 }
 
 /*

@@ -100,7 +100,6 @@ $(document).ready(function () {
                 url: "validate.php",
                 data: $("#form").serialize(),
                 success: function (data) {
-                    console.log(data);
                     var dataP = JSON.parse(data);
                     if(dataP["success"] == "true"){
                         $(".registration").html("<h1>Registration Successful</h1><h2 style=\"font-size:x-large\">Thank you for registering with us. You can now <a href='../authorization/authorization.php'>login</a> to your account.</h2>");
