@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="plugin.css">
+    <script src="jquery-3.7.1.js"></script>
+    <script src="index.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('.gallery-img').imageGallery();
+      });
+    </script>
+  </head>
+  <body>
+    <div class="gallery-container">
+      <img class="gallery-img gallery-active" src="left_1.png">
+      <img class="gallery-img" src="left_2.png">
+      <img class="gallery-img" src="left_3.png">
+    </div>
+  </body>
+</html>

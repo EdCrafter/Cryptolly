@@ -10,8 +10,20 @@ function showProfile($user)
         ->sql();
     $r = $mysqli->query($result);
     $t = 0;
-    if (file_exists("../profile/img/$user.jpg")) {
-        echo "<img src='../profile/img/$user.jpg' style='float:left;'>";
+    if (file_exists("../profile/img/$user")) {
+        echo "<div class='gallery-container'>";
+        $files = glob("../profile/img/$user/*");
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                if ($file == "../profile/img/$user/$user" . "_" . "1.jpg"){
+                    echo "<img src='$file' style='float:left;' class='gallery-img gallery-active'>";
+                }
+                else{
+                    echo "<img src='$file' style='float:left;' class='gallery-img'>";
+                }
+            }
+        }
+        echo "</div>";
         $t = 1;
     }
     echo "<a class='member' href='members.php?view=$user&r=$randstr'>$user</a>";
@@ -27,6 +39,6 @@ function showProfile($user)
     $result1 = $mysqli->find("members")->select(['admin'])->where('username', '=', $user)->sql();
     $r1 = $mysqli->queryOne($result1);
     if ($r1['admin'] == '1' && $user == $_SESSION['username']) {
-        echo "<button class='button-container' onclick=\"window.location.href = 'members.php?view=$user&r=$randstr';\">Admin page</button>";
+        echo "<button class='button-container' onclick=\"window.location.href = 'admin.php';\">Admin page</button>";
     }
 }

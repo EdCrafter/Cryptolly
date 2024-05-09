@@ -1,0 +1,42 @@
+.gallery-prev-btn,
+.gallery-next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.gallery-prev-btn {
+    left: 10px;
+}
+
+.gallery-next-btn {
+    right: 10px;
+}
+
+.image-gallery-modal{
+    width: 97vw;
+    height: 97vh;
+    position: fixed;
+    margin: 0;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.image-gallery-modal img{
+    position: absolute;
+    top: 45vh;
+    left: 45vw;
+}
+
+.gallery-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
