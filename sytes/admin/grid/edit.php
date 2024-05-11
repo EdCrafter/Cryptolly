@@ -75,10 +75,10 @@ if (isset($_POST['oper'])) {
     echo json_encode(['success' => false]);
 }
 
-$f = fopen("edit.txt", "a+");
-fputs($f, "POST:\n");
-fputs($f, var_export($_POST, true));
-fputs($f, "GET:\n");
-fputs($f, var_export($_GET, true));
-fclose($f);
+// $f = fopen("edit.txt", "a+");
+// fputs($f, "POST:\n");
+// fputs($f, var_export($_POST, true));
+// fputs($f, "GET:\n");
+// fputs($f, var_export($_GET, true));
+// fclose($f);
 

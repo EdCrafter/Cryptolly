@@ -14,6 +14,10 @@ RewriteRule ^.*profile\.php$  /sytes/profile/profile.php [L,R=301]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*admin\.php$  /sytes/admin/admin.php [L,R=301]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^.*members\.php$  /sytes/members/members.php [L,R=301]
 
 RewriteCond %{REQUEST_FILENAME} !-f

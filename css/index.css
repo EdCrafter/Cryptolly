@@ -611,9 +611,10 @@ ul{
   td {
     text-align: left;
   }
-  tr {
+   tr {
     height: 64px;
-  }
+  } 
+  
   .assets th {
     color: #6f74b0;
     font-feature-settings: "clig" off, "liga" off;

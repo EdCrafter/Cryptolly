@@ -20,40 +20,22 @@ Header('Content-Type: application/json');
 
 $pagination = new Pagination();
 $pagination->limits =  [10, 20, 30];
-$x = $db->find('prices')->select(['*'])->where('price','<>','NULL')->join('cryptocurrencies c', [[
-    'field' => 'c.crypto_id',
-    'condition' => '=',
-    'value' => 'prices.crypto_id'
-]])->join('currency cu', [[
-    'field' => 'cu.currency_id',
-    'condition' => '=',
-    'value' => 'prices.currency_id'
-]]);
+$x = $db->find('members')->select(['Username', 'Email', 'Age', 'Admin', 'created_at']);
 
-$sql = $db->find('prices')->select([
-    'id',
-    'price',
-    'date',
-    'time',
-    'c.name as crypto_name',
-    'cu.currency_name'
-])->join('cryptocurrencies c', [[
-    'field' => 'c.crypto_id',
-    'condition' => '=',
-    'value' => 'prices.crypto_id'
-]])->join('currency cu', [[
-    'field' => 'cu.currency_id',
-    'condition' => '=',
-    'value' => 'prices.currency_id'
-]]);
+$sql = $db->find('members')->select([
+    'Username',
+    'Email',
+    'Age',
+    'Admin',
+    'created_at'
+]);
 if (isset($_POST['_search']) && $_POST['_search'] === 'true') {
     $fields = [
-        'id' => 'id',
-        'price' => 'price',
-        'date' => 'date',
-        'time' => 'time',
-        'crypto_name' => 'c.name',
-        'currency_name' => 'cu.currency_name'
+        'Username' => 'Username',
+        'Email' => 'Email',
+        'Age' => 'Age',
+        'Admin' => 'Admin',
+        'Created at' => 'created_at'
     ];
     if ($_POST['filters']) {
         $filters = json_decode($_POST['filters'], true);
@@ -75,7 +57,7 @@ $pagination->setLimit(DataProcessor::sanitizeString(Request::post('rows', 10)));
 $pagination->setRowsCount($count);
 $pagination->setPage(DataProcessor::sanitizeString(Request::post('page', 1)));
 
-$sql->orderBy(['id'], DataProcessor::sanitizeString(Request::post('sord', 'desc')));
+$sql->orderBy(['Username'], DataProcessor::sanitizeString(Request::post('sord', 'desc')));
 $sql->offset($pagination->getFirst())->limit($pagination->getLimit());
 $sql = $sql->sql();
 $rows = $db->query($sql);
@@ -92,14 +74,13 @@ $response = [
 $r=[];
 foreach ($rows as $row){
     array_push($r, [
-        'id' => $row['id'],
+        'Username' => $row['Username'],
         'cell'=> [
-            $row['id'],
-            $row['price'],
-            $row['date'],
-            $row['time'],
-            $row['crypto_name'],
-            $row['currency_name']
+            $row['Username'],
+            $row['Email'],
+            $row['Age'],
+            $row['Admin'],
+            $row['created_at']
         ],
     ]);
     

@@ -1,0 +1,25 @@
+POST:
+array (
+  'Admin' => '1',
+  'oper' => 'edit',
+  'id' => 'userThird',
+)GET:
+array (
+)TTT:
+POST:
+array (
+  'Admin' => '1',
+  'oper' => 'edit',
+  'id' => 'userThird',
+)GET:
+array (
+)POST:
+array (
+  'Admin' => '1',
+  'oper' => 'edit',
+  'id' => 'userThird',
+)GET:
+array (
+)SQL:
+SELECT * FROM admin WHERE  user = 'userThird'SQL:
+INSERT INTO admin (user,password) VALUES ('userThird','$2y$10$B/90gMH7Ot16YNrqKqloGe2vI4QtiOp2VGrstnjCZjH3DJdNIUk7e')

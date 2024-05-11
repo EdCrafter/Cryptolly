@@ -1,8 +1,47 @@
 .myIframe {
-    width: 100%; /* Ширина 100% */
-    border: none; /* Убираем рамку */
+  width: 100%; /* Ширина 100% */
+  border: none; /* Убираем рамку */
 }
 
-h2{
-    color:#0fa;
+h2 {
+  color: #0fa;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Настройка ширины колонок по содержимому */
+th:nth-child(1),
+td:nth-child(1) {
+  width: auto;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+  width: auto;
+}
+tr {
+  height: auto;
+}
+
+.ui-jqgrid-btable ,.ui-jqgrid-htable{
+  width: 99% !important;
+}
+
+.ui-jqgrid-hbox{
+    padding: 0px !important;
+}
+
+.ui-jqgrid td ,.ui-jqgrid th{
+    max-width: fit-content;
+}
+
+.ui-jqgrid * , .ui-jqgrid *:before , .ui-jqgrid *:after{
+    box-sizing: content-box;
+}
+
+.ui-jqgrid table{
+    background: none;
 }
