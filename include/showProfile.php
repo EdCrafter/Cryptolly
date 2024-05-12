@@ -15,10 +15,9 @@ function showProfile($user)
         $files = glob("../profile/img/$user/*");
         foreach ($files as $file) {
             if (is_file($file)) {
-                if ($file == "../profile/img/$user/$user" . "_" . "1.jpg"){
+                if ($file == "../profile/img/$user/$user" . "_" . "1.jpg") {
                     echo "<img src='$file' style='float:left;' class='gallery-img gallery-active'>";
-                }
-                else{
+                } else {
                     echo "<img src='$file' style='float:left;' class='gallery-img'>";
                 }
             }
@@ -40,5 +39,7 @@ function showProfile($user)
     $r1 = $mysqli->queryOne($result1);
     if ($r1['admin'] == '1' && $user == $_SESSION['username']) {
         echo "<button class='button-container' onclick=\"window.location.href = 'admin.php';\">Admin page</button>";
+    } else {
+        echo "<button class='button-container' onclick=\"window.location.href = 'getAdmin.php';\">Get admin</button>";
     }
 }

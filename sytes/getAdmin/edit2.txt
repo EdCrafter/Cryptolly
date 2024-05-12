@@ -1,0 +1,1 @@
+SELECT admin_pass FROM admin WHERE  user = 'userThird'SELECT admin_pass FROM admin WHERE  user = 'userThird'SELECT admin_pass FROM admin WHERE  user = 'userThird'SELECT admin_pass FROM admin WHERE  user = 'userThird'SELECT admin_pass FROM admin WHERE  user = 'userThird'SELECT admin_pass FROM admin WHERE  user = 'userThird'SELECT admin_pass FROM admin WHERE  user = 'userThird'

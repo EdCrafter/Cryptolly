@@ -1,10 +1,22 @@
 <?php
+$indB = rand(0, 3);
+$indC = rand(4, 7);
 function generateRandomPassword($length = 8)
 {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    global $indB , $indC;
+    $characters = 'abcdefghijklmnopqrstuvwxyz';
+    $charactersB = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersC = '0123456789';
     $password = '';
     for ($i = 0; $i < $length; $i++) {
-        $password .= $characters[rand(0, strlen($characters) - 1)];
+        if ($i == $indB) {
+            $password .= $charactersB[rand(0, strlen($charactersB) - 1)];
+        }else if ($i == $indC) {
+            $password .= $charactersC[rand(0, strlen($charactersC) - 1)];
+        } 
+        else {
+            $password .= $characters[rand(0, strlen($characters) - 1)];
+        }
     }
     return $password;
 }
@@ -39,9 +51,14 @@ if (isset($_POST['oper'])) {
                     ->sql();
                 $r = $db->query($sql);
                 if ($r) {
-                    $sql = $db->find("admin")->update('admin_pass', $pass)
+                    $pass = "'".$pass."'";
+                    $sql = $db->find("admin")->update(['admin_pass'],[$pass])
                         ->where('user', '=', $_POST["id"])
                         ->sql();
+                    $f = fopen('edit.txt', 'a+');
+                    fputs($f, $sql);
+                    fputs($f, "titihgjk\n");
+                    fclose($f);
                     
                     $db->executeQuery($sql);
                 } else {
