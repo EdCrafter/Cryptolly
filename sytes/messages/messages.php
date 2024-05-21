@@ -11,6 +11,19 @@ include_once("../../include/session.php");
     <link rel="stylesheet" href="../../css/index.css">
     <link rel="stylesheet" href="../../components/css/members.css">
     <link rel="stylesheet" href="../../components/css/messages.css">
+    <link rel="stylesheet" href="../../include/gallery/plugin.css">
+    <script src='../../include/gallery/jquery-3.7.1.js'></script>
+    <script src='../../include/gallery/gallery.js'></script>
+    <script>
+      $(document).ready(function () {
+        $('.gallery-img').imageGallery();
+      });
+    </script>
+    <style>
+        .gallery-img:not(.gallery-active) {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>

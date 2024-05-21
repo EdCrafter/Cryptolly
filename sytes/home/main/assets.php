@@ -153,7 +153,7 @@ include_once("include/image.php");
                         $change = number_format(($arrCh[0]) ,2);
                     
                         echo '<tr>';
-                        echo "<td><div>" . ($num + 1) . "</div></td>";
+                        
                         echo "<td class='table-assets'>";
                         echo "<div>";
                         echo "<div>";
