@@ -37,9 +37,11 @@ function showProfile($user)
     }
     $result1 = $mysqli->find("members")->select(['admin'])->where('username', '=', $user)->sql();
     $r1 = $mysqli->queryOne($result1);
-    if ($r1['admin'] == '1' && $user == $_SESSION['username']) {
-        echo "<button class='button-container' onclick=\"window.location.href = 'admin.php';\">Admin page</button>";
-    } else {
-        echo "<button class='button-container' onclick=\"window.location.href = 'getAdmin.php';\">Get admin</button>";
+    if ($user == $_SESSION['username']) {
+        if ($r1['admin'] == '1') {
+            echo "<button class='button-container' onclick=\"window.location.href = 'admin.php';\">Admin page</button>";
+        } else {
+            echo "<button class='button-container' onclick=\"window.location.href = 'getAdmin.php';\">Get admin</button>";
+        }
     }
 }

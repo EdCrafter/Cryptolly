@@ -28,7 +28,7 @@ session_start();
                 <li><a>Pricing</a></li>
                 <li><a>Wallet</a></li>
                 <li><a>Company</a></li>
-                <li><a href="members.php">Blog</a></li>
+                <li><a href="members.php">Members</a></li>
             </ul>
             <?php
                 if (isset($_SESSION['username'])) {

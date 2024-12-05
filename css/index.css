@@ -886,7 +886,7 @@ ul{
     display: flex;
     position: static;
     align-items: center;
-    gap:102px;
+    gap:85px;
   }
   .menu-dropdown ul{
     display: flex;
